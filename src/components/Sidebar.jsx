@@ -1,10 +1,10 @@
-import { navItems, safetyBadges } from '../data/navigation.js';
+﻿import { navItems, safetyBadges } from '../data/navigation.js';
 
 export default function Sidebar({ activePage, onNavigate }) {
   return (
     <aside className="fixed left-0 top-0 z-40 hidden h-full w-72 flex-col border-r border-surface-border/70 bg-surface-card px-5 py-8 md:flex">
       <button className="mb-10 text-left font-headline text-2xl font-extrabold text-primary" onClick={() => onNavigate('home')} type="button">
-        AI-Healtcare
+        AI-Healthcare
       </button>
 
       <nav className="flex flex-1 flex-col gap-2">
@@ -42,3 +42,4 @@ export default function Sidebar({ activePage, onNavigate }) {
     </aside>
   );
 }
+

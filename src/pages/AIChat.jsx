@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Bot, Send, UserRound } from 'lucide-react';
 import PageHeader from '../components/PageHeader.jsx';
 import FormattedText from '../components/FormattedText.jsx';
@@ -9,7 +9,7 @@ const disclaimer = 'Informasi ini hanya untuk edukasi umum dan bukan pengganti n
 const starterMessages = [
   {
     role: 'assistant',
-    text: `Halo, saya AI-Healtcare. Ajukan pertanyaan edukasi kesehatan umum dan saya akan menjawab dengan pengingat keselamatan. ${disclaimer}`,
+    text: `Halo, saya AI-Healthcare. Ajukan pertanyaan edukasi kesehatan umum dan saya akan menjawab dengan pengingat keselamatan. ${disclaimer}`,
   },
 ];
 
@@ -120,7 +120,7 @@ export default function AIChat() {
               <Bot size={23} />
             </div>
             <div>
-              <h2 className="font-headline text-xl font-bold text-text">Asisten AI-Healtcare</h2>
+              <h2 className="font-headline text-xl font-bold text-text">Asisten AI-Healthcare</h2>
               <p className="text-sm text-muted">
                 {geminiReady ? 'Gemini 2.5 Flash aktif' : 'Mode lokal, API key belum tersedia'}
               </p>
@@ -141,7 +141,7 @@ export default function AIChat() {
           {isLoading && (
             <div className="flex gap-3">
               <Avatar type="assistant" />
-              <div className="rounded-2xl bg-surface-low p-4 text-sm text-muted">AI-Healtcare sedang menyusun jawaban...</div>
+              <div className="rounded-2xl bg-surface-low p-4 text-sm text-muted">AI-Healthcare sedang menyusun jawaban...</div>
             </div>
           )}
           {error && <p className="rounded-xl bg-warning-soft/50 p-3 text-sm text-warning">{error}</p>}
@@ -173,3 +173,4 @@ function Avatar({ type }) {
     </div>
   );
 }
+

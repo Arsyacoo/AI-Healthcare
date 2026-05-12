@@ -1,5 +1,5 @@
 {
-  "name": "ai-healtcare",
+  "name": "ai-healthcare",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -21,3 +21,4 @@
     "autoprefixer": "^10.4.21"
   }
 }
+

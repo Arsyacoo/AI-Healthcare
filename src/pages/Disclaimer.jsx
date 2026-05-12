@@ -1,4 +1,4 @@
-import { AlertTriangle, Ban, FileWarning, Siren, Stethoscope } from 'lucide-react';
+﻿import { AlertTriangle, Ban, FileWarning, Siren, Stethoscope } from 'lucide-react';
 import PageHeader from '../components/PageHeader.jsx';
 import InfoCard from '../components/InfoCard.jsx';
 
@@ -6,7 +6,7 @@ const items = [
   {
     title: 'Bukan alat diagnosis',
     icon: FileWarning,
-    text: 'AI-Healtcare menyediakan edukasi kesehatan umum dan tidak dapat memastikan kondisi medis Anda.',
+    text: 'AI-Healthcare menyediakan edukasi kesehatan umum dan tidak dapat memastikan kondisi medis Anda.',
   },
   {
     title: 'Bukan pengganti dokter',
@@ -28,7 +28,7 @@ const items = [
 export default function Disclaimer() {
   return (
     <div>
-      <PageHeader eyebrow="Disclaimer medis" title="AI-Healtcare hanya untuk edukasi kesehatan umum">
+      <PageHeader eyebrow="Disclaimer medis" title="AI-Healthcare hanya untuk edukasi kesehatan umum">
         Mohon baca ini sebelum menggunakan halaman panduan gejala, chat, informasi obat, atau tips pencegahan.
       </PageHeader>
 
@@ -61,3 +61,4 @@ export default function Disclaimer() {
     </div>
   );
 }
+

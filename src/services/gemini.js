@@ -3,7 +3,7 @@ const MODEL = 'gemini-2.5-flash';
 const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 
 const medicalSafetyInstruction = `
-Anda adalah AI-Healtcare, asisten edukasi kesehatan umum dalam bahasa Indonesia.
+Anda adalah AI-Healthcare, asisten edukasi kesehatan umum dalam bahasa Indonesia.
 Aturan wajib:
 - Jangan memberikan diagnosis pasti.
 - Jangan memberikan resep obat.
@@ -103,7 +103,7 @@ export function getGeminiErrorMessage(error) {
 export function buildChatPrompt(message, history = []) {
   const recentHistory = history
     .slice(-8)
-    .map((item) => `${item.role === 'user' ? 'Pengguna' : 'AI-Healtcare'}: ${item.text}`)
+    .map((item) => `${item.role === 'user' ? 'Pengguna' : 'AI-Healthcare'}: ${item.text}`)
     .join('\n');
 
   return `
@@ -195,6 +195,7 @@ Jangan memberikan dosis, resep, atau instruksi penggunaan personal.
 Jika nama obat tidak jelas, jelaskan bahwa pengguna perlu memastikan nama obat ke dokter atau apoteker.
 `;
 }
+
 
 
 

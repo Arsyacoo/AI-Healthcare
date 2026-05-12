@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+﻿import { useMemo, useState } from 'react';
 import { AlertTriangle, Bot, Pill, Search, ShieldCheck, Stethoscope } from 'lucide-react';
 import FormattedText from '../components/FormattedText.jsx';
 import PageHeader from '../components/PageHeader.jsx';
@@ -61,7 +61,7 @@ export default function MedicationInfo() {
     <div>
       <PageHeader eyebrow="Info obat" title="Cari informasi obat umum">
         Pelajari kegunaan umum, efek samping umum, dan peringatan keselamatan dengan data lokal
-        AI-Healtcare tidak memberikan dosis, resep, atau rekomendasi obat.
+        AI-Healthcare tidak memberikan dosis, resep, atau rekomendasi obat.
       </PageHeader>
 
       <form className="mb-6" onSubmit={handleAiSearch}>
@@ -157,3 +157,4 @@ export default function MedicationInfo() {
     </div>
   );
 }
+

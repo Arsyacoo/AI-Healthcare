@@ -1,8 +1,8 @@
-﻿# AI-Healtcare
+﻿# AI-Healthcare
 
-AI-Healtcare adalah aplikasi frontend untuk edukasi kesehatan umum berbasis React, Vite, Tailwind CSS, dan Gemini 2.5 Flash. Aplikasi ini membantu pengguna memahami gejala umum, bertanya lewat chat AI, mencari informasi obat, membaca tips pencegahan, dan memahami batasan penggunaan melalui disclaimer medis.
+AI-Healthcare adalah aplikasi frontend untuk edukasi kesehatan umum berbasis React, Vite, Tailwind CSS, dan Gemini 2.5 Flash. Aplikasi ini membantu pengguna memahami gejala umum, bertanya lewat chat AI, mencari informasi obat, membaca tips pencegahan, dan memahami batasan penggunaan melalui disclaimer medis.
 
-> Catatan medis: AI-Healtcare hanya untuk edukasi umum. Aplikasi ini bukan alat diagnosis, bukan pengganti dokter, tidak memberikan resep, tidak memberikan dosis obat, dan tidak menangani kondisi darurat.
+> Catatan medis: AI-Healthcare hanya untuk edukasi umum. Aplikasi ini bukan alat diagnosis, bukan pengganti dokter, tidak memberikan resep, tidak memberikan dosis obat, dan tidak menangani kondisi darurat.
 
 ## Fitur Utama
 
@@ -100,4 +100,5 @@ Aplikasi ini saat ini berjalan frontend-only. API key Vite yang digunakan di bro
 
 ## Disclaimer Medis
 
-AI-Healtcare menyediakan informasi kesehatan umum untuk tujuan edukasi. Informasi dari aplikasi ini dapat tidak lengkap, tidak terbaru, atau tidak sesuai dengan kondisi pribadi pengguna. Untuk keluhan berat, gejala yang memburuk, atau kondisi darurat seperti nyeri dada, sesak napas, pingsan, perdarahan berat, kebingungan, atau tidak sadar, segera cari bantuan medis profesional.
+AI-Healthcare menyediakan informasi kesehatan umum untuk tujuan edukasi. Informasi dari aplikasi ini dapat tidak lengkap, tidak terbaru, atau tidak sesuai dengan kondisi pribadi pengguna. Untuk keluhan berat, gejala yang memburuk, atau kondisi darurat seperti nyeri dada, sesak napas, pingsan, perdarahan berat, kebingungan, atau tidak sadar, segera cari bantuan medis profesional.
+

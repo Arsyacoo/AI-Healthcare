@@ -1,4 +1,4 @@
-import { Bot, ClipboardPlus, HeartPulse, Pill, ShieldAlert, Sparkles } from 'lucide-react';
+﻿import { Bot, ClipboardPlus, HeartPulse, Pill, ShieldAlert, Sparkles } from 'lucide-react';
 import InfoCard from '../components/InfoCard.jsx';
 
 const features = [
@@ -42,7 +42,7 @@ export default function Home({ onNavigate }) {
             Edukasi kesehatan berbasis AI
           </div>
           <h1 className="font-headline text-4xl font-extrabold leading-tight text-text sm:text-5xl">
-            AI-Healtcare membantu Anda memahami gejala, obat, dan pencegahan sehari-hari.
+            AI-Healthcare membantu Anda memahami gejala, obat, dan pencegahan sehari-hari.
           </h1>
           <p className="max-w-2xl text-lg text-muted">
             Frontend lokal yang responsif untuk edukasi kesehatan umum. Aplikasi ini memberi
@@ -73,7 +73,7 @@ export default function Home({ onNavigate }) {
           <div className="grid min-h-[360px] place-items-center rounded-2xl bg-[radial-gradient(circle_at_50%_35%,#d4e3ff,transparent_35%),linear-gradient(135deg,#fdfcff,#eaf7f0)] p-8">
             <div className="w-full max-w-sm space-y-4">
               <div className="rounded-2xl bg-white/85 p-4 shadow-glow">
-                <p className="text-sm font-bold text-primary">AI-Healtcare</p>
+                <p className="text-sm font-bold text-primary">AI-Healthcare</p>
                 <p className="mt-2 text-muted">Bagaimana saya dapat membantu Anda memahami gejala hari ini?</p>
               </div>
               <div className="ml-auto w-4/5 rounded-2xl bg-primary p-4 text-white shadow-card">
@@ -109,3 +109,4 @@ export default function Home({ onNavigate }) {
     </div>
   );
 }
+

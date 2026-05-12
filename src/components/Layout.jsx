@@ -8,7 +8,7 @@ const searchItems = [
   {
     id: 'home',
     title: 'Beranda',
-    description: 'Mulai dari ringkasan fitur utama AI-Healtcare.',
+    description: 'Mulai dari ringkasan fitur utama AI-Healthcare.',
     keywords: 'home beranda utama mulai fitur layanan',
   },
   {
@@ -78,11 +78,11 @@ export default function Layout({ activePage, onNavigate, children }) {
             className="font-headline text-xl font-extrabold text-primary md:hidden"
             onClick={() => onNavigate('home')}
           >
-            AI-Healtcare
+            AI-Healthcare
           </button>
 
           <div className="hidden md:block">
-            <p className="text-xs font-bold uppercase tracking-wide text-secondary">AI-Healtcare</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-secondary">AI-Healthcare</p>
             <p className="font-headline text-xl font-bold text-text">{currentPage?.label || 'Beranda'}</p>
           </div>
 
@@ -105,7 +105,7 @@ export default function Layout({ activePage, onNavigate, children }) {
       </main>
 
       <footer className="border-t border-surface-border/70 bg-surface-card px-4 py-8 text-center text-sm text-muted md:ml-72 md:px-10 md:pb-8">
-        <p className="font-headline text-lg font-bold text-primary">AI-Healtcare</p>
+        <p className="font-headline text-lg font-bold text-primary">AI-Healthcare</p>
         <p className="mx-auto mt-2 max-w-3xl">
           Hanya untuk tujuan informasi. Aplikasi ini tidak memberikan nasihat medis,
           diagnosis, pengobatan, resep, atau layanan darurat.
@@ -120,7 +120,7 @@ export default function Layout({ activePage, onNavigate, children }) {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-bold uppercase tracking-wide text-secondary">Pencarian cepat</p>
-                <h2 className="font-headline text-2xl font-bold text-text">Cari fitur AI-Healtcare</h2>
+                <h2 className="font-headline text-2xl font-bold text-text">Cari fitur AI-Healthcare</h2>
               </div>
               <button className="icon-button" type="button" aria-label="Tutup pencarian" onClick={() => setSearchOpen(false)}>
                 <X size={20} />
@@ -167,7 +167,7 @@ export default function Layout({ activePage, onNavigate, children }) {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="text-xs font-bold uppercase tracking-wide text-secondary">Bantuan</p>
-                <h2 className="font-headline text-2xl font-bold text-text">Cara memakai AI-Healtcare</h2>
+                <h2 className="font-headline text-2xl font-bold text-text">Cara memakai AI-Healthcare</h2>
               </div>
               <button className="icon-button" type="button" aria-label="Tutup bantuan" onClick={() => setHelpOpen(false)}>
                 <X size={20} />
@@ -214,3 +214,4 @@ export default function Layout({ activePage, onNavigate, children }) {
     </div>
   );
 }
+
