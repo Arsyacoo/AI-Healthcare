@@ -1,0 +1,117 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    font-family: theme('fontFamily.body');
+    background: theme('colors.surface');
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-primary/10 bg-surface-card p-5 shadow-card;
+  }
+
+  .btn-primary {
+    @apply inline-flex min-h-12 items-center justify-center rounded-xl bg-primary px-6 py-3 font-bold text-white shadow-card transition hover:bg-primary/90 active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply inline-flex min-h-12 items-center justify-center rounded-xl border-2 border-primary bg-white px-6 py-3 font-bold text-primary transition hover:bg-primary-soft active:scale-[0.98];
+  }
+
+  .input {
+    @apply w-full rounded-xl border-2 border-surface-border bg-white px-4 py-3 text-text outline-none transition placeholder:text-muted/60 focus:border-primary focus:ring-4 focus:ring-primary/10;
+  }
+
+  .field-label {
+    @apply block text-sm font-bold text-muted;
+  }
+
+  .field-label .input {
+    @apply mt-2;
+  }
+
+  .chip {
+    @apply rounded-full border border-secondary/20 bg-secondary-soft/20 px-3 py-1.5 text-sm font-bold text-secondary transition hover:bg-secondary-soft/45;
+  }
+
+  .icon-button {
+    @apply grid h-10 w-10 place-items-center rounded-full text-muted transition hover:bg-surface-low hover:text-primary;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 rounded-lg px-4 py-3 text-left font-bold text-muted transition hover:bg-surface-low hover:text-primary;
+  }
+
+  .sidebar-link-active {
+    @apply bg-secondary-soft/45 text-secondary shadow-sm;
+  }
+
+  .mobile-link {
+    @apply flex min-h-14 flex-col items-center justify-center rounded-xl px-1 text-[11px] font-bold text-muted transition;
+  }
+
+  .mobile-link-active {
+    @apply bg-primary-soft text-primary;
+  }
+
+  .nav-top {
+    @apply border-b-2 border-transparent pb-1 text-sm font-bold text-muted transition hover:text-primary;
+  }
+
+  .nav-top-active {
+    @apply border-primary text-primary;
+  }
+
+  .formatted-text {
+    @apply space-y-4 text-muted;
+  }
+
+  .formatted-text section {
+    @apply rounded-lg border border-primary/10 bg-white/60 p-4;
+  }
+
+  .formatted-text h4 {
+    @apply mb-2 mt-0 font-headline text-base font-bold text-primary;
+  }
+
+  .formatted-text p {
+    @apply leading-7;
+  }
+
+  .formatted-text ul {
+    @apply space-y-2 pl-0;
+  }
+
+  .formatted-text li {
+    @apply relative list-none pl-5 leading-7;
+  }
+
+  .formatted-text li::before {
+    content: '';
+    @apply absolute left-0 top-3 h-1.5 w-1.5 rounded-full bg-primary;
+  }
+
+  .formatted-text strong {
+    @apply font-bold text-text;
+  }
+}
+
+
+
