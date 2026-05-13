@@ -56,18 +56,23 @@ export default function MedicationInfo() {
         {t('medication.subtitle')}
       </PageHeader>
 
-      <form className="mb-6" onSubmit={handleAiSearch}>
-        <div className="relative max-w-3xl">
+      <form className="mb-7 rounded-xl border border-primary/10 bg-surface-card p-4 shadow-card sm:p-5" onSubmit={handleAiSearch}>
+        <div className="relative w-full">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted" size={20} />
-          <input className="input pl-12" onChange={(event) => setQuery(event.target.value)} placeholder={t('medication.placeholder')} value={query} />
+          <input
+            className="input h-14 rounded-lg border-surface-border/90 pl-12 shadow-sm"
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder={t('medication.placeholder')}
+            value={query}
+          />
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           {Object.values(medicationData).map((item) => (
-            <button className="chip" key={item.name} onClick={() => setQuery(item.name)} type="button">
+            <button className="chip border-secondary/25 bg-secondary-soft/25 text-secondary hover:bg-secondary-soft/45" key={item.name} onClick={() => setQuery(item.name)} type="button">
               {item.name}
             </button>
           ))}
-          <button className="chip border-primary/20 bg-primary-soft/40 text-primary" type="submit" disabled={isAiLoading}>
+          <button className="chip border-primary/25 bg-primary-soft/55 text-primary disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={isAiLoading}>
             {isAiLoading ? t('medication.searchingAi') : t('medication.searchAi')}
           </button>
         </div>
@@ -94,56 +99,70 @@ export default function MedicationInfo() {
         </div>
       ) : (
         <section className="grid gap-5 lg:grid-cols-12">
-          <article className="card lg:col-span-7">
+          <article className="card rounded-xl border-surface-border/70 p-5 shadow-card sm:p-6 lg:col-span-7">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-bold uppercase text-primary">{t('medication.generalUse')}</span>
-                <h2 className="mt-3 font-headline text-3xl font-bold">{medicine.name}</h2>
+                <h2 className="mt-3 font-headline text-3xl font-extrabold text-text">{medicine.name}</h2>
               </div>
-              <Pill className="text-primary" size={38} />
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary-soft text-primary">
+                <Pill size={28} />
+              </div>
             </div>
-            <p className="mt-5 text-lg text-muted">{medicine.generalUse[language]}</p>
-            <div className="mt-5 rounded-xl border-l-4 border-primary bg-surface-low p-4 text-sm text-muted">
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-muted">{medicine.generalUse[language]}</p>
+            <div className="mt-6 rounded-lg border-l-4 border-primary bg-surface-low px-4 py-3 text-sm leading-6 text-muted">
               {t('medication.doseRefusal')}
             </div>
           </article>
 
-          <article className="card border-danger/15 bg-danger-soft/35 lg:col-span-5">
+          <article className="card rounded-xl border-danger/20 bg-danger-soft/45 p-5 shadow-card sm:p-6 lg:col-span-5">
             <div className="flex items-center gap-2 text-danger">
               <AlertTriangle size={22} />
-              <h3 className="font-headline text-xl font-bold">{t('medication.safetyWarnings')}</h3>
+              <h3 className="font-headline text-xl font-extrabold">{t('medication.safetyWarnings')}</h3>
             </div>
-            <ul className="mt-4 space-y-3 text-muted">
-              {medicine.safetyWarnings[language].map((item) => <li key={item}>{item}</li>)}
+            <ul className="mt-5 space-y-3 text-muted">
+              {medicine.safetyWarnings[language].map((item) => (
+                <li className="flex gap-3 leading-7" key={item}>
+                  <span className="mt-3 h-1.5 w-1.5 shrink-0 rounded-full bg-danger" />
+                  <span>{item}</span>
+                </li>
+              ))}
             </ul>
           </article>
 
-          <article className="card lg:col-span-4">
+          <article className="card rounded-xl border-surface-border/70 p-5 shadow-card sm:p-6 lg:col-span-4">
             <div className="flex items-center gap-2">
               <ShieldCheck className="text-secondary" size={22} />
-              <h3 className="font-headline text-xl font-bold">{t('medication.commonSideEffects')}</h3>
+              <h3 className="font-headline text-xl font-extrabold">{t('medication.commonSideEffects')}</h3>
             </div>
             <div className="mt-4 grid gap-3">
-              {medicine.commonSideEffects[language].map((effect) => <div className="rounded-xl bg-surface-low p-3 font-bold text-muted" key={effect}>{effect}</div>)}
+              {medicine.commonSideEffects[language].map((effect) => (
+                <div className="rounded-lg bg-surface-low px-4 py-3 font-bold text-muted" key={effect}>{effect}</div>
+              ))}
             </div>
           </article>
 
-          <article className="card lg:col-span-4">
+          <article className="card rounded-xl border-surface-border/70 p-5 shadow-card sm:p-6 lg:col-span-4">
             <div className="flex items-center gap-2">
               <Users className="text-warning" size={22} />
-              <h3 className="font-headline text-xl font-bold">{t('medication.carefulGroups')}</h3>
+              <h3 className="font-headline text-xl font-extrabold">{t('medication.carefulGroups')}</h3>
             </div>
-            <ul className="mt-4 space-y-2 text-muted">
-              {medicine.carefulGroups[language].map((item) => <li key={item}>{item}</li>)}
+            <ul className="mt-5 space-y-3 text-muted">
+              {medicine.carefulGroups[language].map((item) => (
+                <li className="flex gap-3 leading-6" key={item}>
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-warning" />
+                  <span>{item}</span>
+                </li>
+              ))}
             </ul>
           </article>
 
-          <article className="card bg-primary text-white lg:col-span-4">
+          <article className="rounded-xl bg-primary p-5 text-white shadow-card sm:p-6 lg:col-span-4">
             <div className="flex items-center gap-2">
               <Stethoscope size={24} />
-              <h3 className="font-headline text-xl font-bold">{t('medication.askProfessional')}</h3>
+              <h3 className="font-headline text-xl font-extrabold">{t('medication.askProfessional')}</h3>
             </div>
-            <p className="mt-4 text-white/90">{t('medication.askReminder')}</p>
+            <p className="mt-5 leading-7 text-white/90">{t('medication.askReminder')}</p>
           </article>
 
           <article className="lg:col-span-12">

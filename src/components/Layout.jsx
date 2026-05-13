@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { AlertTriangle, BookOpen, HelpCircle, Search, UserCircle, X } from 'lucide-react';
+import { AlertTriangle, BookOpen, Bot, ClipboardPlus, HeartPulse, HelpCircle, Pill, Search, UserCircle, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext.jsx';
 import { navItems } from '../data/navigation.js';
 import LanguageToggle from './LanguageToggle.jsx';
@@ -150,15 +150,24 @@ export default function Layout({ activePage, onNavigate, children }) {
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <button className="rounded-xl border border-primary/10 bg-primary-soft/35 p-4 text-left" type="button" onClick={() => navigateAndClose('symptoms')}>
-                <p className="font-bold text-primary">{t('nav.symptoms')}</p>
+                <div className="flex items-center gap-2 font-bold text-primary">
+                  <ClipboardPlus size={18} />
+                  <span>{t('nav.symptoms')}</span>
+                </div>
                 <p className="mt-1 text-sm text-muted">{t('layout.helpSymptoms')}</p>
               </button>
               <button className="rounded-xl border border-secondary/20 bg-secondary-soft/25 p-4 text-left" type="button" onClick={() => navigateAndClose('chat')}>
-                <p className="font-bold text-secondary">{t('nav.chat')}</p>
+                <div className="flex items-center gap-2 font-bold text-secondary">
+                  <Bot size={18} />
+                  <span>{t('nav.chat')}</span>
+                </div>
                 <p className="mt-1 text-sm text-muted">{t('layout.helpChat')}</p>
               </button>
               <button className="rounded-xl border border-warning/20 bg-warning-soft/35 p-4 text-left" type="button" onClick={() => navigateAndClose('medication')}>
-                <p className="font-bold text-warning">{t('nav.medication')}</p>
+                <div className="flex items-center gap-2 font-bold text-warning">
+                  <Pill size={18} />
+                  <span>{t('nav.medication')}</span>
+                </div>
                 <p className="mt-1 text-sm text-muted">{t('layout.helpMedication')}</p>
               </button>
               <button className="rounded-xl border border-primary/10 bg-primary-soft/30 p-4 text-left" type="button" onClick={() => navigateAndClose('library')}>
@@ -168,8 +177,11 @@ export default function Layout({ activePage, onNavigate, children }) {
                 </div>
                 <p className="mt-1 text-sm text-muted">{t('layout.helpLibrary')}</p>
               </button>
-              <button className="rounded-xl border border-primary/10 bg-surface-low p-4 text-left" type="button" onClick={() => navigateAndClose('prevention')}>
-                <p className="font-bold text-primary">{t('nav.prevention')}</p>
+              <button className="rounded-xl border border-primary/10 bg-surface-low p-4 text-left sm:col-span-2" type="button" onClick={() => navigateAndClose('prevention')}>
+                <div className="flex items-center gap-2 font-bold text-primary">
+                  <HeartPulse size={18} />
+                  <span>{t('nav.prevention')}</span>
+                </div>
                 <p className="mt-1 text-sm text-muted">{t('layout.helpPrevention')}</p>
               </button>
             </div>

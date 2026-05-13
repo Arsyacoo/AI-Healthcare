@@ -201,21 +201,35 @@ export default function AIChat() {
         </div>
 
         <div className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-6">
-          {messages.map((message, index) => (
-            <div className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`} key={`${message.role}-${index}`}>
-              {message.role === 'assistant' && <Avatar type="assistant" />}
-              <div className={`max-w-[82%] rounded-2xl p-4 text-sm leading-7 sm:text-base ${message.role === 'user' ? 'bg-primary text-white' : 'bg-surface-low text-muted'}`}>
-                {message.role === 'assistant' ? <FormattedText text={message.text} /> : message.text}
-              </div>
-              {message.role === 'user' && <Avatar type="user" />}
-              {message.role === 'assistant' && index > 0 && (
-                <div className="ml-12 max-w-[82%]">
-                  <PromptTransparencyPanel source="chat history + selected literacy mode + Gemini/local fallback + safety rules" />
-                  <FeedbackButtons context={`ai-chat:${index}:${literacyMode}`} />
+          {messages.map((message, index) => {
+            if (message.role === 'user') {
+              return (
+                <div className="flex justify-end gap-3" key={`${message.role}-${index}`}>
+                  <div className="max-w-[82%] rounded-2xl bg-primary p-4 text-sm leading-7 text-white sm:text-base">
+                    {message.text}
+                  </div>
+                  <Avatar type="user" />
                 </div>
-              )}
-            </div>
-          ))}
+              );
+            }
+
+            return (
+              <div className="flex items-start gap-3" key={`${message.role}-${index}`}>
+                <Avatar type="assistant" />
+                <div className="flex w-full max-w-[82%] flex-col">
+                  <div className="rounded-2xl bg-surface-low p-4 text-sm leading-7 text-muted sm:text-base">
+                    <FormattedText text={message.text} />
+                  </div>
+                  {index > 0 && (
+                    <div className="mt-3">
+                      <PromptTransparencyPanel source="chat history + selected literacy mode + Gemini/local fallback + safety rules" />
+                      <FeedbackButtons context={`ai-chat:${index}:${literacyMode}`} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
           {messages.map((message, index) => {
             const matches = message.role === 'user' ? detectRedFlags(message.text) : [];
             return matches.length > 0 ? <EmergencyAlert key={`alert-${index}`} matches={matches} /> : null;
