@@ -10,17 +10,17 @@
 } from 'lucide-react';
 
 export const navItems = [
-  { id: 'home', labelKey: 'nav.home', label: 'Beranda', shortLabel: 'Beranda', icon: Home },
-  { id: 'symptoms', labelKey: 'nav.symptoms', label: 'Panduan Gejala', shortLabel: 'Gejala', icon: ClipboardPlus },
-  { id: 'chat', labelKey: 'nav.chat', label: 'Chat AI', shortLabel: 'Chat', icon: Bot },
-  { id: 'medication', labelKey: 'nav.medication', label: 'Medication Safety', shortLabel: 'Obat', icon: Pill },
-  { id: 'library', labelKey: 'nav.library', label: 'Health Library', shortLabel: 'Library', icon: BookOpen },
-  { id: 'prevention', labelKey: 'nav.prevention', label: 'Tips Pencegahan', shortLabel: 'Tips', icon: HeartPulse },
-  { id: 'disclaimer', labelKey: 'nav.disclaimer', label: 'Disclaimer', shortLabel: 'Catatan', icon: FileWarning },
+  { id: 'home', labelKey: 'nav.home', shortLabelKey: 'navShort.home', icon: Home },
+  { id: 'symptoms', labelKey: 'nav.symptoms', shortLabelKey: 'navShort.symptoms', icon: ClipboardPlus },
+  { id: 'chat', labelKey: 'nav.chat', shortLabelKey: 'navShort.chat', icon: Bot },
+  { id: 'medication', labelKey: 'nav.medication', shortLabelKey: 'navShort.medication', icon: Pill },
+  { id: 'library', labelKey: 'nav.library', shortLabelKey: 'navShort.library', icon: BookOpen },
+  { id: 'prevention', labelKey: 'nav.prevention', shortLabelKey: 'navShort.prevention', icon: HeartPulse },
+  { id: 'disclaimer', labelKey: 'nav.disclaimer', shortLabelKey: 'navShort.disclaimer', icon: FileWarning },
 ];
 
 export const safetyBadges = [
-  { label: 'Hanya edukasi', icon: ShieldCheck },
-  { label: 'Bukan diagnosis', icon: FileWarning },
-  { label: 'Tanpa resep', icon: Pill },
+  { labelKey: 'safety.education', icon: ShieldCheck },
+  { labelKey: 'safety.noDiagnosis', icon: FileWarning },
+  { labelKey: 'safety.noPrescription', icon: Pill },
 ];

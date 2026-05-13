@@ -7,48 +7,13 @@ import Sidebar from './Sidebar.jsx';
 import MobileNav from './MobileNav.jsx';
 
 const searchItems = [
-  {
-    id: 'home',
-    title: 'Beranda',
-    description: 'Mulai dari ringkasan fitur utama AI-Healthcare.',
-    keywords: 'home beranda utama mulai fitur layanan',
-  },
-  {
-    id: 'symptoms',
-    title: 'Panduan Gejala',
-    description: 'Isi form untuk mendapatkan panduan gejala berbasis edukasi.',
-    keywords: 'gejala sakit nyeri demam batuk pusing panduan cek kesehatan',
-  },
-  {
-    id: 'chat',
-    title: 'Chat AI',
-    description: 'Tanyakan edukasi kesehatan umum secara percakapan.',
-    keywords: 'chat ai tanya konsultasi edukasi kesehatan gemini',
-  },
-  {
-    id: 'medication',
-    title: 'Medication Safety',
-    description: 'Cari informasi keamanan obat tanpa dosis atau resep.',
-    keywords: 'obat paracetamol ibuprofen cetirizine efek samping apoteker',
-  },
-  {
-    id: 'library',
-    title: 'Health Library',
-    description: 'Baca artikel edukasi kesehatan umum.',
-    keywords: 'library artikel demam batuk sakit kepala diare alergi tidur nutrisi olahraga mental',
-  },
-  {
-    id: 'prevention',
-    title: 'Tips Pencegahan',
-    description: 'Baca artikel pencegahan dan checklist kebiasaan harian.',
-    keywords: 'tips pencegahan tidur nutrisi olahraga mental checklist harian',
-  },
-  {
-    id: 'disclaimer',
-    title: 'Disclaimer',
-    description: 'Baca batasan aplikasi dan peringatan kondisi darurat.',
-    keywords: 'disclaimer darurat diagnosis dokter resep batasan medis',
-  },
+  { id: 'home', titleKey: 'nav.home', descriptionKey: 'search.home', keywordsKey: 'searchKeywords.home' },
+  { id: 'symptoms', titleKey: 'nav.symptoms', descriptionKey: 'search.symptoms', keywordsKey: 'searchKeywords.symptoms' },
+  { id: 'chat', titleKey: 'nav.chat', descriptionKey: 'search.chat', keywordsKey: 'searchKeywords.chat' },
+  { id: 'medication', titleKey: 'nav.medication', descriptionKey: 'search.medication', keywordsKey: 'searchKeywords.medication' },
+  { id: 'library', titleKey: 'nav.library', descriptionKey: 'search.library', keywordsKey: 'searchKeywords.library' },
+  { id: 'prevention', titleKey: 'nav.prevention', descriptionKey: 'search.prevention', keywordsKey: 'searchKeywords.prevention' },
+  { id: 'disclaimer', titleKey: 'nav.disclaimer', descriptionKey: 'search.disclaimer', keywordsKey: 'searchKeywords.disclaimer' },
 ];
 
 export default function Layout({ activePage, onNavigate, children }) {
@@ -64,10 +29,10 @@ export default function Layout({ activePage, onNavigate, children }) {
     if (!normalized) return searchItems;
 
     return searchItems.filter((item) => {
-      const haystack = `${item.title} ${item.description} ${item.keywords}`.toLowerCase();
+      const haystack = `${t(item.titleKey)} ${t(item.descriptionKey)} ${t(item.keywordsKey)}`.toLowerCase();
       return haystack.includes(normalized);
     });
-  }, [query]);
+  }, [query, t]);
 
   function navigateAndClose(pageId) {
     onNavigate(pageId);
@@ -91,7 +56,7 @@ export default function Layout({ activePage, onNavigate, children }) {
           </button>
 
           <div className="hidden md:block">
-            <p className="text-xs font-bold uppercase tracking-wide text-secondary">AI-Healthcare</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-secondary">{t('common.appName')}</p>
             <p className="font-headline text-xl font-bold text-text">{currentPage ? t(currentPage.labelKey) : t('nav.home')}</p>
           </div>
 
@@ -128,10 +93,10 @@ export default function Layout({ activePage, onNavigate, children }) {
           <div className="mx-auto max-w-2xl rounded-2xl border border-primary/10 bg-white p-4 shadow-2xl sm:p-5">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-bold uppercase tracking-wide text-secondary">Pencarian cepat</p>
-                <h2 className="font-headline text-2xl font-bold text-text">Cari fitur AI-Healthcare</h2>
+                <p className="text-xs font-bold uppercase tracking-wide text-secondary">{t('layout.searchEyebrow')}</p>
+                <h2 className="font-headline text-2xl font-bold text-text">{t('layout.searchTitle')}</h2>
               </div>
-              <button className="icon-button" type="button" aria-label="Tutup pencarian" onClick={() => setSearchOpen(false)}>
+              <button className="icon-button" type="button" aria-label={t('common.close')} onClick={() => setSearchOpen(false)}>
                 <X size={20} />
               </button>
             </div>
@@ -143,7 +108,7 @@ export default function Layout({ activePage, onNavigate, children }) {
                 className="input pl-12"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Cari gejala, obat, chat, tips, disclaimer..."
+                placeholder={t('layout.searchPlaceholder')}
               />
             </div>
 
@@ -156,13 +121,13 @@ export default function Layout({ activePage, onNavigate, children }) {
                     onClick={() => navigateAndClose(item.id)}
                     className="w-full rounded-xl border border-surface-border/70 bg-surface-low p-4 text-left transition hover:border-primary/30 hover:bg-primary-soft/40"
                   >
-                    <p className="font-headline text-lg font-bold text-text">{item.title}</p>
-                    <p className="mt-1 text-sm text-muted">{item.description}</p>
+                    <p className="font-headline text-lg font-bold text-text">{t(item.titleKey)}</p>
+                    <p className="mt-1 text-sm text-muted">{t(item.descriptionKey)}</p>
                   </button>
                 ))
               ) : (
                 <div className="rounded-xl bg-warning-soft/50 p-4 text-sm text-muted">
-                  Tidak ada hasil. Coba kata kunci seperti gejala, obat, chat, tips, atau darurat.
+                  {t('layout.searchEmpty')}
                 </div>
               )}
             </div>
@@ -175,37 +140,37 @@ export default function Layout({ activePage, onNavigate, children }) {
           <div className="mx-auto max-w-2xl rounded-2xl border border-primary/10 bg-white p-5 shadow-2xl">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-bold uppercase tracking-wide text-secondary">Bantuan</p>
-                <h2 className="font-headline text-2xl font-bold text-text">Cara memakai AI-Healthcare</h2>
+                <p className="text-xs font-bold uppercase tracking-wide text-secondary">{t('common.help')}</p>
+                <h2 className="font-headline text-2xl font-bold text-text">{t('layout.helpTitle')}</h2>
               </div>
-              <button className="icon-button" type="button" aria-label="Tutup bantuan" onClick={() => setHelpOpen(false)}>
+              <button className="icon-button" type="button" aria-label={t('common.close')} onClick={() => setHelpOpen(false)}>
                 <X size={20} />
               </button>
             </div>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <button className="rounded-xl border border-primary/10 bg-primary-soft/35 p-4 text-left" type="button" onClick={() => navigateAndClose('symptoms')}>
-                <p className="font-bold text-primary">Panduan Gejala</p>
-                <p className="mt-1 text-sm text-muted">Gunakan form jika ingin hasil edukasi yang terstruktur dan bukan percakapan.</p>
+                <p className="font-bold text-primary">{t('nav.symptoms')}</p>
+                <p className="mt-1 text-sm text-muted">{t('layout.helpSymptoms')}</p>
               </button>
               <button className="rounded-xl border border-secondary/20 bg-secondary-soft/25 p-4 text-left" type="button" onClick={() => navigateAndClose('chat')}>
-                <p className="font-bold text-secondary">Chat AI</p>
-                <p className="mt-1 text-sm text-muted">Gunakan chat untuk tanya jawab edukasi umum secara bertahap.</p>
+                <p className="font-bold text-secondary">{t('nav.chat')}</p>
+                <p className="mt-1 text-sm text-muted">{t('layout.helpChat')}</p>
               </button>
               <button className="rounded-xl border border-warning/20 bg-warning-soft/35 p-4 text-left" type="button" onClick={() => navigateAndClose('medication')}>
-                <p className="font-bold text-warning">Medication Safety</p>
-                <p className="mt-1 text-sm text-muted">Cari kegunaan umum dan peringatan obat, tanpa dosis atau resep.</p>
+                <p className="font-bold text-warning">{t('nav.medication')}</p>
+                <p className="mt-1 text-sm text-muted">{t('layout.helpMedication')}</p>
               </button>
               <button className="rounded-xl border border-primary/10 bg-primary-soft/30 p-4 text-left" type="button" onClick={() => navigateAndClose('library')}>
                 <div className="flex items-center gap-2 font-bold text-primary">
                   <BookOpen size={18} />
-                  <span>Health Library</span>
+                  <span>{t('nav.library')}</span>
                 </div>
-                <p className="mt-1 text-sm text-muted">Jelajahi artikel edukasi seperti demam, batuk, nutrisi, tidur, dan kesehatan mental ringan.</p>
+                <p className="mt-1 text-sm text-muted">{t('layout.helpLibrary')}</p>
               </button>
               <button className="rounded-xl border border-primary/10 bg-surface-low p-4 text-left" type="button" onClick={() => navigateAndClose('prevention')}>
-                <p className="font-bold text-primary">Tips Pencegahan</p>
-                <p className="mt-1 text-sm text-muted">Baca artikel singkat dan gunakan checklist kebiasaan harian.</p>
+                <p className="font-bold text-primary">{t('nav.prevention')}</p>
+                <p className="mt-1 text-sm text-muted">{t('layout.helpPrevention')}</p>
               </button>
             </div>
 
@@ -213,16 +178,14 @@ export default function Layout({ activePage, onNavigate, children }) {
               <div className="flex gap-3 text-danger">
                 <AlertTriangle className="mt-1 shrink-0" size={22} />
                 <div>
-                  <p className="font-bold">Kondisi darurat</p>
-                  <p className="mt-1 text-sm text-muted">
-                    Jika ada nyeri dada, sesak napas, pingsan, perdarahan berat, kebingungan, tidak sadar, atau kondisi mengancam nyawa, segera cari bantuan medis darurat.
-                  </p>
+                  <p className="font-bold">{t('layout.emergencyTitle')}</p>
+                  <p className="mt-1 text-sm text-muted">{t('layout.emergencyBody')}</p>
                 </div>
               </div>
             </div>
 
             <button className="btn-secondary mt-5 w-full" type="button" onClick={() => navigateAndClose('disclaimer')}>
-              Baca disclaimer medis
+              {t('layout.disclaimerButton')}
             </button>
           </div>
         </div>

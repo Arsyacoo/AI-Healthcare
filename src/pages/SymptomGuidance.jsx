@@ -6,6 +6,7 @@ import FormattedText from '../components/FormattedText.jsx';
 import HealthLiteracySelector from '../components/HealthLiteracySelector.jsx';
 import PageHeader from '../components/PageHeader.jsx';
 import PromptTransparencyPanel from '../components/PromptTransparencyPanel.jsx';
+import { useLanguage } from '../contexts/LanguageContext.jsx';
 import { askGemini, buildSymptomPrompt, geminiReady, getGeminiErrorMessage } from '../services/gemini.js';
 import { detectRedFlags } from '../utils/redFlags.js';
 
@@ -14,7 +15,7 @@ const initialForm = {
   gender: '',
   symptom: '',
   duration: '',
-  severity: 'Ringan',
+  severity: 'mild',
   additional: '',
   condition: '',
 };
@@ -26,8 +27,8 @@ function cleanOptionalValue(value) {
   return emptyMarkers.includes(normalized.toLowerCase()) ? '' : normalized;
 }
 
-function buildGuidance(form) {
-  const symptom = form.symptom || 'gejala utama Anda';
+function buildGuidance(form, t) {
+  const symptom = form.symptom || t('symptoms.defaultSymptom');
   const additional = cleanOptionalValue(form.additional);
   const condition = cleanOptionalValue(form.condition);
   const text = `${form.symptom} ${additional}`;
@@ -37,24 +38,17 @@ function buildGuidance(form) {
   return {
     hasRedFlag,
     redFlagMatches,
-    summary: `${form.age ? `Usia ${form.age}, ` : ''}${form.gender ? `${form.gender}, ` : ''}${symptom} selama ${form.duration || 'durasi belum disebutkan'} dengan tingkat keparahan ${form.severity.toLowerCase()}.`,
-    causes: [
-      'Infeksi ringan sementara, iritasi, cedera kecil, dehidrasi, stres, atau faktor gaya hidup dapat berkontribusi pada banyak gejala umum.',
-      'Kondisi kesehatan yang sudah ada, aktivitas terbaru, alergi, atau perubahan obat juga dapat memengaruhi gejala.',
-    ],
-    selfCare: [
-      'Istirahat, cukup minum, dan pantau apakah gejala membaik, memburuk, atau berubah.',
-      'Hindari aktivitas berat jika gejala terasa sedang atau berat.',
-      'Gunakan informasi kesehatan tepercaya dan hubungi tenaga medis sebelum memakai obat baru.',
-    ],
-    doctor: [
-      'Temui dokter jika gejala menetap, memburuk, berulang, atau mengganggu aktivitas harian.',
-      'Cari saran profesional lebih cepat jika Anda sedang hamil, lanjut usia, memiliki daya tahan tubuh lemah, atau memiliki kondisi kesehatan penting.',
-    ],
-    emergency: [
-      'Hubungi layanan darurat setempat untuk nyeri dada, sulit bernapas, pingsan, perdarahan berat, kebingungan, atau kehilangan kesadaran.',
-      'Jangan gunakan aplikasi ini untuk menangani gejala darurat atau yang mengancam nyawa.',
-    ],
+    summary: t('symptoms.summary', {
+      age: form.age ? t('symptoms.agePart', { age: form.age }) : '',
+      gender: form.gender ? `${form.gender}, ` : '',
+      symptom,
+      duration: form.duration || t('symptoms.durationMissing'),
+      severity: t(`symptoms.${form.severity}`).toLowerCase(),
+    }),
+    causes: t('symptoms.localCauses'),
+    selfCare: t('symptoms.localSelfCare'),
+    doctor: t('symptoms.localDoctor'),
+    emergency: t('symptoms.localEmergency'),
     cleanedForm: {
       ...form,
       additional,
@@ -64,6 +58,7 @@ function buildGuidance(form) {
 }
 
 export default function SymptomGuidance() {
+  const { language, t } = useLanguage();
   const [form, setForm] = useState(initialForm);
   const [result, setResult] = useState(null);
   const [aiInsight, setAiInsight] = useState('');
@@ -78,22 +73,22 @@ export default function SymptomGuidance() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const guidance = buildGuidance(form);
+    const guidance = buildGuidance(form, t);
     setResult(guidance);
     setAiInsight('');
     setAiError('');
 
     if (!geminiReady) {
-      setAiError('API key Gemini belum tersedia. Panduan rule-based tetap ditampilkan.');
+      setAiError(t('symptoms.apiMissing'));
       return;
     }
 
     setIsAiLoading(true);
     try {
-      const insight = await askGemini(buildSymptomPrompt(guidance.cleanedForm, guidance.summary, guidance.hasRedFlag, literacyMode));
+      const insight = await askGemini(buildSymptomPrompt(guidance.cleanedForm, guidance.summary, guidance.hasRedFlag, literacyMode, language));
       setAiInsight(insight);
     } catch (error) {
-      setAiError(getGeminiErrorMessage(error));
+      setAiError(getGeminiErrorMessage(error, t));
       console.error(error);
     } finally {
       setIsAiLoading(false);
@@ -102,9 +97,8 @@ export default function SymptomGuidance() {
 
   return (
     <div>
-      <PageHeader eyebrow="Panduan gejala" title="Cek gejala dengan edukasi terstruktur">
-        Masukkan konteks dasar untuk menerima panduan rule-based.
-        Hasil ini bukan diagnosis dan sebaiknya dibahas dengan tenaga medis bila diperlukan.
+      <PageHeader eyebrow={t('symptoms.eyebrow')} title={t('symptoms.title')}>
+        {t('symptoms.subtitle')}
       </PageHeader>
 
       <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
@@ -112,47 +106,47 @@ export default function SymptomGuidance() {
           <HealthLiteracySelector value={literacyMode} onChange={setLiteracyMode} />
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="field-label">
-              Usia
-              <input className="input" min="0" name="age" onChange={updateField} placeholder="mis. 32" type="number" value={form.age} />
+              {t('symptoms.age')}
+              <input className="input" min="0" name="age" onChange={updateField} placeholder={t('symptoms.agePlaceholder')} type="number" value={form.age} />
             </label>
             <label className="field-label">
-              Jenis kelamin opsional
+              {t('symptoms.gender')}
               <select className="input" name="gender" onChange={updateField} value={form.gender}>
-                <option value="">Tidak ingin menyebutkan</option>
-                <option>Perempuan</option>
-                <option>Laki-laki</option>
-                <option>Lainnya</option>
+                <option value="">{t('symptoms.preferNot')}</option>
+                <option>{t('symptoms.female')}</option>
+                <option>{t('symptoms.male')}</option>
+                <option>{t('symptoms.other')}</option>
               </select>
             </label>
           </div>
           <label className="field-label">
-            Gejala utama
-            <input className="input" name="symptom" onChange={updateField} placeholder="mis. batuk, demam, sakit kepala" value={form.symptom} />
+            {t('symptoms.symptom')}
+            <input className="input" name="symptom" onChange={updateField} placeholder={t('symptoms.symptomPlaceholder')} value={form.symptom} />
           </label>
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="field-label">
-              Durasi gejala
-              <input className="input" name="duration" onChange={updateField} placeholder="mis. 3 hari" value={form.duration} />
+              {t('symptoms.duration')}
+              <input className="input" name="duration" onChange={updateField} placeholder={t('symptoms.durationPlaceholder')} value={form.duration} />
             </label>
             <label className="field-label">
-              Tingkat keparahan
+              {t('symptoms.severity')}
               <select className="input" name="severity" onChange={updateField} value={form.severity}>
-                <option>Ringan</option>
-                <option>Sedang</option>
-                <option>Berat</option>
+                <option value="mild">{t('symptoms.mild')}</option>
+                <option value="moderate">{t('symptoms.moderate')}</option>
+                <option value="severe">{t('symptoms.severe')}</option>
               </select>
             </label>
           </div>
           <label className="field-label">
-            Gejala tambahan
-            <textarea className="input min-h-28" name="additional" onChange={updateField} placeholder="Tuliskan gejala lain atau tanda bahaya bila ada" value={form.additional} />
+            {t('symptoms.additional')}
+            <textarea className="input min-h-28" name="additional" onChange={updateField} placeholder={t('symptoms.additionalPlaceholder')} value={form.additional} />
           </label>
           <label className="field-label">
-            Kondisi kesehatan yang sudah ada opsional
-            <input className="input" name="condition" onChange={updateField} placeholder="mis. asma, diabetes" value={form.condition} />
+            {t('symptoms.condition')}
+            <input className="input" name="condition" onChange={updateField} placeholder={t('symptoms.conditionPlaceholder')} value={form.condition} />
           </label>
           <button className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50" disabled={!canSubmit} type="submit">
-            Dapatkan Panduan
+            {t('symptoms.submit')}
           </button>
         </form>
 
@@ -164,10 +158,8 @@ export default function SymptomGuidance() {
               <div className="grid h-full place-items-center text-center">
                 <div>
                   <ClipboardList className="mx-auto text-primary" size={48} />
-                  <h2 className="mt-4 font-headline text-2xl font-bold">Panduan Anda akan muncul di sini</h2>
-                  <p className="mt-2 max-w-md text-muted">
-                    Lengkapi form untuk melihat ringkasan edukatif lokal, ide perawatan mandiri yang aman, dan tanda bahaya.
-                  </p>
+                  <h2 className="mt-4 font-headline text-2xl font-bold">{t('symptoms.emptyTitle')}</h2>
+                  <p className="mt-2 max-w-md text-muted">{t('symptoms.emptyText')}</p>
                 </div>
               </div>
             ) : (
@@ -175,24 +167,24 @@ export default function SymptomGuidance() {
                 <div className="rounded-xl bg-primary-soft/60 p-4">
                   <div className="flex items-center gap-2 font-bold text-primary">
                     <HeartPulse size={20} />
-                    Ringkasan gejala
+                    {t('symptoms.summaryTitle')}
                   </div>
                   <p className="mt-2 text-muted">{result.summary}</p>
-                  {result.cleanedForm.condition && <p className="mt-1 text-sm text-muted">Kondisi kesehatan dicatat: {result.cleanedForm.condition}</p>}
+                  {result.cleanedForm.condition && <p className="mt-1 text-sm text-muted">{t('symptoms.conditionRecorded', { condition: result.cleanedForm.condition })}</p>}
                 </div>
-                <ResultList title="Kemungkinan penyebab umum" items={result.causes} />
-                <ResultList title="Saran perawatan mandiri yang aman" items={result.selfCare} />
-                <ResultList title="Kapan perlu ke dokter" items={result.doctor} />
-                <ResultList title="Tanda bahaya darurat" items={result.emergency} danger />
+                <ResultList title={t('symptoms.causesTitle')} items={result.causes} />
+                <ResultList title={t('symptoms.selfCareTitle')} items={result.selfCare} />
+                <ResultList title={t('symptoms.doctorTitle')} items={result.doctor} />
+                <ResultList title={t('symptoms.emergencyTitle')} items={result.emergency} danger />
                 <PromptTransparencyPanel source="local symptom rules + red flag keyword checker" />
                 <FeedbackButtons context="symptom-guidance-local" />
                 {(isAiLoading || aiInsight || aiError) && (
                   <div className="rounded-xl border border-primary/15 bg-primary-soft/35 p-4">
                     <div className="mb-2 flex items-center gap-2 font-bold text-primary">
                       <Bot size={20} />
-                      Insight AI Gemini
+                      {t('symptoms.aiTitle')}
                     </div>
-                    {isAiLoading && <p className="text-muted">Gemini sedang menyusun insight edukatif...</p>}
+                    {isAiLoading && <p className="text-muted">{t('symptoms.aiLoading')}</p>}
                     {aiInsight && <FormattedText text={aiInsight} />}
                     {aiInsight && <PromptTransparencyPanel source="symptom form + red flag checker + selected literacy mode + Gemini" />}
                     {aiInsight && <FeedbackButtons context={`symptom-guidance:${literacyMode}`} />}

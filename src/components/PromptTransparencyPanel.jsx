@@ -16,7 +16,7 @@ export default function PromptTransparencyPanel({ source = 'local content and sa
         <div className="mt-3 text-muted">
           <p className="font-bold text-text">{t('transparency.title')}</p>
           <p className="mt-1">{t('transparency.body')}</p>
-          <p className="mt-2 text-xs">Source: {source}</p>
+          <p className="mt-2 text-xs">{t('common.source')}: {source}</p>
         </div>
       )}
     </div>

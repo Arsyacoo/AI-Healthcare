@@ -11,7 +11,7 @@ export default function EmergencyAlert({ matches = [] }) {
         <div>
           <h2 className="font-headline text-xl font-bold">{t('emergency.title')}</h2>
           <p className="mt-2 text-sm">{t('emergency.message')}</p>
-          {matches.length > 0 && <p className="mt-2 text-xs font-bold">Keyword: {matches.join(', ')}</p>}
+          {matches.length > 0 && <p className="mt-2 text-xs font-bold">{t('common.keyword')}: {matches.join(', ')}</p>}
         </div>
       </div>
     </div>

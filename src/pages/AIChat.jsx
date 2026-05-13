@@ -6,20 +6,78 @@ import HealthLiteracySelector from '../components/HealthLiteracySelector.jsx';
 import PageHeader from '../components/PageHeader.jsx';
 import PromptTransparencyPanel from '../components/PromptTransparencyPanel.jsx';
 import FormattedText from '../components/FormattedText.jsx';
+import { useLanguage } from '../contexts/LanguageContext.jsx';
 import { askGemini, buildChatPrompt, geminiReady, getGeminiErrorMessage } from '../services/gemini.js';
 import { detectRedFlags } from '../utils/redFlags.js';
 
-const disclaimer = 'Informasi ini hanya untuk edukasi umum dan bukan pengganti nasihat medis profesional.';
-
-const starterMessages = [
-  {
-    role: 'assistant',
-    text: `Halo, saya AI-Healthcare. Ajukan pertanyaan edukasi kesehatan umum dan saya akan menjawab dengan pengingat keselamatan. ${disclaimer}`,
-  },
-];
-
-function mockResponse(message) {
+function mockResponse(message, language) {
   const lower = message.toLowerCase();
+  if (language === 'en') {
+    let answer =
+      `Summary:
+- I can help with general education, but a few more details would make the guidance more useful.
+
+Clarifying questions:
+- Are there any other symptoms?
+- How severe is the complaint on a 1-10 scale?
+- Do you have any medication allergies?
+- Before this started, did you take any food, drinks, medication, or supplements?
+- Do you have any existing medical conditions or important health history?
+
+What you can do:
+- Note when symptoms started and whether they are improving or worsening.
+- Avoid guessing a diagnosis and consult a medical professional if symptoms persist or worsen.`;
+
+    if (lower.includes('fever') || lower.includes('demam')) {
+      answer =
+        `Summary:
+- Fever can have many causes, so it should be viewed together with other symptoms and overall condition.
+
+Clarifying questions:
+- What was the last measured temperature and how long has the fever lasted?
+- Is there cough, sore throat, rash, vomiting, diarrhea, pain when urinating, or shortness of breath?
+- How uncomfortable does it feel on a 1-10 scale?
+- Are there medication allergies or existing health conditions?
+- Before the fever, did you eat, drink, take medication, or travel somewhere specific?
+
+What you can do:
+- Rest, drink enough fluids, and monitor temperature regularly.
+- Seek medical help if fever is high, persistent, or comes with severe symptoms.`;
+    } else if (lower.includes('cough') || lower.includes('batuk')) {
+      answer =
+        `Summary:
+- Cough can be related to mild infection, allergy, irritation, reflux, or certain breathing conditions.
+
+Clarifying questions:
+- Is the cough dry or with phlegm?
+- How long has it been going on?
+- Is there fever, shortness of breath, chest pain, wheezing, or coughing blood?
+- How disruptive is it on a 1-10 scale?
+- Do you have medication allergies, asthma, or existing health conditions?
+
+What you can do:
+- Drink enough fluids, avoid smoke or irritants, and monitor whether the cough worsens.
+- Seek urgent help if there is shortness of breath, chest pain, coughing blood, or worsening condition.`;
+    } else if (lower.includes('medicine') || lower.includes('medication') || lower.includes('obat')) {
+      answer =
+        `Summary:
+- Medication safety depends strongly on personal conditions and other medicines being used.
+
+Clarifying questions:
+- What is the medication name or active ingredient?
+- Do you have medication allergies?
+- Are you taking other medicines, supplements, or herbal products?
+- Do you have kidney, liver, stomach, heart, asthma-related conditions, or pregnancy?
+- What complaint are you hoping the medication will help?
+
+What you can do:
+- Check the official label and ask a doctor or pharmacist before using or combining medication.`;
+    }
+
+    return `${answer} This information is for general education only and is not a substitute for professional medical advice.`;
+  }
+
+  const disclaimer = 'Informasi ini hanya untuk edukasi umum dan bukan pengganti nasihat medis profesional.';
   let answer =
     `Ringkasan:
 - Saya dapat membantu memberi edukasi umum, tetapi perlu beberapa informasi tambahan agar panduannya lebih tepat.
@@ -85,7 +143,13 @@ Yang bisa dilakukan:
 }
 
 export default function AIChat() {
-  const [messages, setMessages] = useState(starterMessages);
+  const { language, t } = useLanguage();
+  const [messages, setMessages] = useState(() => [
+    {
+      role: 'assistant',
+      text: t('chat.starter', { disclaimer: t('common.disclaimer') }),
+    },
+  ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -103,11 +167,11 @@ export default function AIChat() {
     setError('');
 
     try {
-      const response = await askGemini(buildChatPrompt(trimmed, messages, literacyMode));
+      const response = await askGemini(buildChatPrompt(trimmed, messages, literacyMode, language));
       setMessages((current) => [...current, { role: 'assistant', text: response }]);
     } catch (apiError) {
-      setError(getGeminiErrorMessage(apiError));
-      setMessages((current) => [...current, { role: 'assistant', text: mockResponse(trimmed) }]);
+      setError(getGeminiErrorMessage(apiError, t));
+      setMessages((current) => [...current, { role: 'assistant', text: mockResponse(trimmed, language) }]);
       console.error(apiError);
     } finally {
       setIsLoading(false);
@@ -116,7 +180,7 @@ export default function AIChat() {
 
   return (
     <div className="flex min-h-[calc(100vh-11rem)] flex-col">
-      <PageHeader eyebrow="Chat AI" title="Ajukan pertanyaan edukasi kesehatan umum">
+      <PageHeader eyebrow={t('nav.chat')} title={t('chat.title')}>
       </PageHeader>
 
       <div className="mb-4"><HealthLiteracySelector value={literacyMode} onChange={setLiteracyMode} /></div>
@@ -128,9 +192,9 @@ export default function AIChat() {
               <Bot size={23} />
             </div>
             <div>
-              <h2 className="font-headline text-xl font-bold text-text">Asisten AI-Healthcare</h2>
+              <h2 className="font-headline text-xl font-bold text-text">{t('chat.assistantName')}</h2>
               <p className="text-sm text-muted">
-                {geminiReady ? 'Gemini 2.5 Flash aktif' : 'Mode lokal, API key belum tersedia'}
+                {geminiReady ? t('chat.ready') : t('chat.local')}
               </p>
             </div>
           </div>
@@ -159,7 +223,7 @@ export default function AIChat() {
           {isLoading && (
             <div className="flex gap-3">
               <Avatar type="assistant" />
-              <div className="rounded-2xl bg-surface-low p-4 text-sm text-muted">AI-Healthcare sedang menyusun jawaban...</div>
+              <div className="rounded-2xl bg-surface-low p-4 text-sm text-muted">{t('chat.loading')}</div>
             </div>
           )}
           {error && <p className="rounded-xl bg-warning-soft/50 p-3 text-sm text-warning">{error}</p>}
@@ -170,10 +234,10 @@ export default function AIChat() {
             <input
               className="input"
               onChange={(event) => setInput(event.target.value)}
-              placeholder="Tanyakan edukasi kesehatan umum..."
+              placeholder={t('chat.placeholder')}
               value={input}
             />
-            <button className="btn-primary shrink-0 px-4" type="submit" aria-label="Kirim pesan">
+            <button className="btn-primary shrink-0 px-4" type="submit" aria-label={t('chat.send')}>
               <Send size={20} />
             </button>
           </div>

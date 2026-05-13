@@ -29,14 +29,14 @@ export default function Sidebar({ activePage, onNavigate }) {
       </nav>
 
       <div className="rounded-xl border border-primary/10 bg-primary-soft/45 p-4">
-        <p className="font-headline text-base font-bold text-primary">Utamakan keselamatan</p>
+        <p className="font-headline text-base font-bold text-primary">{t('safety.title')}</p>
         <div className="mt-3 space-y-2">
           {safetyBadges.map((badge) => {
             const Icon = badge.icon;
             return (
-              <div className="flex items-center gap-2 text-sm text-muted" key={badge.label}>
+              <div className="flex items-center gap-2 text-sm text-muted" key={badge.labelKey}>
                 <Icon size={16} className="text-secondary" />
-                {badge.label}
+                {t(badge.labelKey)}
               </div>
             );
           })}

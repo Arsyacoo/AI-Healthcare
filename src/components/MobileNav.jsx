@@ -33,7 +33,7 @@ export default function MobileNav({ activePage, onNavigate }) {
                 aria-label={t(item.labelKey)}
               >
                 <Icon size={19} />
-                <span>{item.shortLabel}</span>
+                <span>{t(item.shortLabelKey)}</span>
               </button>
             );
           })}
@@ -49,7 +49,7 @@ export default function MobileNav({ activePage, onNavigate }) {
           <div className="mx-auto max-w-sm rounded-2xl bg-white p-4 shadow-2xl">
             <div className="flex items-center justify-between">
               <p className="font-headline text-xl font-bold">{t('nav.more')}</p>
-              <button className="icon-button" type="button" onClick={() => setMoreOpen(false)} aria-label="Close">
+              <button className="icon-button" type="button" onClick={() => setMoreOpen(false)} aria-label={t('common.close')}>
                 <X size={18} />
               </button>
             </div>

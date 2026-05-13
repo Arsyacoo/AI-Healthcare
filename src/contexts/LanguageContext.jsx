@@ -13,7 +13,15 @@ export function LanguageProvider({ children }) {
 
   const value = useMemo(() => {
     const dictionary = translations[language] || translations.id;
-    const t = (path) => path.split('.').reduce((current, key) => current?.[key], dictionary) || path;
+    const t = (path, replacements = {}) => {
+      const template = path.split('.').reduce((current, key) => current?.[key], dictionary) || path;
+      if (typeof template !== 'string') return template;
+
+      return Object.entries(replacements).reduce(
+        (text, [key, value]) => text.replaceAll(`{{${key}}}`, value),
+        template,
+      );
+    };
     return { language, setLanguage: changeLanguage, t };
   }, [language]);
 
