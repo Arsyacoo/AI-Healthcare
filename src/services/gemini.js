@@ -100,7 +100,17 @@ export function getGeminiErrorMessage(error) {
   return 'Gemini belum bisa dihubungi. Menampilkan respons lokal sementara.';
 }
 
-export function buildChatPrompt(message, history = []) {
+function literacyInstruction(mode) {
+  const map = {
+    simple: 'Gunakan bahasa sederhana, kalimat pendek, dan hindari istilah teknis.',
+    detailed: 'Berikan penjelasan lebih rinci namun tetap aman dan tidak mendiagnosis.',
+    parents: 'Gunakan sudut pandang orang tua atau caregiver, sebutkan observasi anak/keluarga bila relevan.',
+    elderly: 'Gunakan bahasa tenang, jelas, dan ramah lansia. Tekankan kehati-hatian pada perubahan mendadak.',
+  };
+  return map[mode] || map.simple;
+}
+
+export function buildChatPrompt(message, history = [], literacyMode = 'simple') {
   const recentHistory = history
     .slice(-8)
     .map((item) => `${item.role === 'user' ? 'Pengguna' : 'AI-Healthcare'}: ${item.text}`)
@@ -114,6 +124,7 @@ Pertanyaan pengguna:
 ${message}
 
 Jawab ringkas, empatik, dan praktis dalam bahasa Indonesia.
+Mode literasi kesehatan: ${literacyMode}. ${literacyInstruction(literacyMode)}
 Gunakan format bersih seperti ini:
 Ringkasan:
 - 1 sampai 2 kalimat utama.
@@ -140,12 +151,12 @@ Jika pengguna sudah memberikan sebagian informasi, jangan ulangi semua pertanyaa
 `;
 }
 
-export function buildSymptomPrompt(form, ruleSummary, hasRedFlag) {
+export function buildSymptomPrompt(form, ruleSummary, hasRedFlag, literacyMode = 'simple') {
   const additional = cleanPromptValue(form.additional);
   const condition = cleanPromptValue(form.condition);
 
   return `
-Buat insight edukasi gejala yang nyaman dibaca pasien berdasarkan data berikut:
+Buat insight edukasi gejala yang nyaman dibaca pasien berdasarkan data berikut. Mode literasi kesehatan: ${literacyMode}. ${literacyInstruction(literacyMode)}
 - Usia: ${form.age || 'tidak disebutkan'}
 - Jenis kelamin: ${form.gender || 'tidak disebutkan'}
 - Gejala utama: ${form.symptom || 'tidak disebutkan'}

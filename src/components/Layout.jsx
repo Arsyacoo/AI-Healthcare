@@ -1,6 +1,8 @@
-﻿import { useMemo, useState } from 'react';
-import { AlertTriangle, HelpCircle, Search, UserCircle, X } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { AlertTriangle, BookOpen, HelpCircle, Search, UserCircle, X } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext.jsx';
 import { navItems } from '../data/navigation.js';
+import LanguageToggle from './LanguageToggle.jsx';
 import Sidebar from './Sidebar.jsx';
 import MobileNav from './MobileNav.jsx';
 
@@ -25,9 +27,15 @@ const searchItems = [
   },
   {
     id: 'medication',
-    title: 'Info Obat',
-    description: 'Cari informasi umum obat tanpa dosis atau resep.',
+    title: 'Medication Safety',
+    description: 'Cari informasi keamanan obat tanpa dosis atau resep.',
     keywords: 'obat paracetamol ibuprofen cetirizine efek samping apoteker',
+  },
+  {
+    id: 'library',
+    title: 'Health Library',
+    description: 'Baca artikel edukasi kesehatan umum.',
+    keywords: 'library artikel demam batuk sakit kepala diare alergi tidur nutrisi olahraga mental',
   },
   {
     id: 'prevention',
@@ -44,6 +52,7 @@ const searchItems = [
 ];
 
 export default function Layout({ activePage, onNavigate, children }) {
+  const { t } = useLanguage();
   const [searchOpen, setSearchOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -83,14 +92,15 @@ export default function Layout({ activePage, onNavigate, children }) {
 
           <div className="hidden md:block">
             <p className="text-xs font-bold uppercase tracking-wide text-secondary">AI-Healthcare</p>
-            <p className="font-headline text-xl font-bold text-text">{currentPage?.label || 'Beranda'}</p>
+            <p className="font-headline text-xl font-bold text-text">{currentPage ? t(currentPage.labelKey) : t('nav.home')}</p>
           </div>
 
           <div className="flex items-center gap-2">
-            <button className="icon-button" type="button" aria-label="Cari" onClick={() => setSearchOpen(true)}>
+            <LanguageToggle />
+            <button className="icon-button" type="button" aria-label={t('common.search')} onClick={() => setSearchOpen(true)}>
               <Search size={20} />
             </button>
-            <button className="icon-button" type="button" aria-label="Bantuan" onClick={() => setHelpOpen(true)}>
+            <button className="icon-button" type="button" aria-label={t('common.help')} onClick={() => setHelpOpen(true)}>
               <HelpCircle size={20} />
             </button>
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-soft text-primary">
@@ -107,8 +117,7 @@ export default function Layout({ activePage, onNavigate, children }) {
       <footer className="border-t border-surface-border/70 bg-surface-card px-4 py-8 text-center text-sm text-muted md:ml-72 md:px-10 md:pb-8">
         <p className="font-headline text-lg font-bold text-primary">AI-Healthcare</p>
         <p className="mx-auto mt-2 max-w-3xl">
-          Hanya untuk tujuan informasi. Aplikasi ini tidak memberikan nasihat medis,
-          diagnosis, pengobatan, resep, atau layanan darurat.
+          {t('common.disclaimer')}
         </p>
       </footer>
 
@@ -184,8 +193,15 @@ export default function Layout({ activePage, onNavigate, children }) {
                 <p className="mt-1 text-sm text-muted">Gunakan chat untuk tanya jawab edukasi umum secara bertahap.</p>
               </button>
               <button className="rounded-xl border border-warning/20 bg-warning-soft/35 p-4 text-left" type="button" onClick={() => navigateAndClose('medication')}>
-                <p className="font-bold text-warning">Info Obat</p>
+                <p className="font-bold text-warning">Medication Safety</p>
                 <p className="mt-1 text-sm text-muted">Cari kegunaan umum dan peringatan obat, tanpa dosis atau resep.</p>
+              </button>
+              <button className="rounded-xl border border-primary/10 bg-primary-soft/30 p-4 text-left" type="button" onClick={() => navigateAndClose('library')}>
+                <div className="flex items-center gap-2 font-bold text-primary">
+                  <BookOpen size={18} />
+                  <span>Health Library</span>
+                </div>
+                <p className="mt-1 text-sm text-muted">Jelajahi artikel edukasi seperti demam, batuk, nutrisi, tidur, dan kesehatan mental ringan.</p>
               </button>
               <button className="rounded-xl border border-primary/10 bg-surface-low p-4 text-left" type="button" onClick={() => navigateAndClose('prevention')}>
                 <p className="font-bold text-primary">Tips Pencegahan</p>
@@ -214,4 +230,5 @@ export default function Layout({ activePage, onNavigate, children }) {
     </div>
   );
 }
+
 

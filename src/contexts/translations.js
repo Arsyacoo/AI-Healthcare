@@ -1,0 +1,108 @@
+﻿export const translations = {
+  id: {
+    nav: {
+      home: 'Beranda',
+      symptoms: 'Panduan Gejala',
+      chat: 'Chat AI',
+      medication: 'Medication Safety',
+      library: 'Health Library',
+      prevention: 'Tips Pencegahan',
+      disclaimer: 'Disclaimer',
+      more: 'Lainnya',
+    },
+    common: {
+      search: 'Cari',
+      help: 'Bantuan',
+      close: 'Tutup',
+      readMore: 'Baca detail',
+      disclaimer: 'Informasi ini hanya untuk edukasi umum dan bukan pengganti tenaga medis profesional.',
+    },
+    emergency: {
+      title: 'Tanda bahaya darurat terdeteksi',
+      message: 'Input Anda memuat tanda bahaya. Segera cari bantuan medis darurat atau hubungi layanan darurat setempat.',
+    },
+    feedback: {
+      helpful: 'Membantu',
+      notHelpful: 'Tidak Membantu',
+      unsafe: 'Laporkan Jawaban Tidak Aman',
+      saved: 'Terima kasih, feedback tersimpan.',
+    },
+    transparency: {
+      button: 'Mengapa jawaban ini muncul?',
+      title: 'Mengapa jawaban ini muncul?',
+      body: 'Jawaban dibuat dari input pengguna, data edukasi lokal, mode literasi kesehatan yang dipilih, dan aturan keselamatan medis. Aplikasi tidak menampilkan prompt sistem penuh, tidak memberi diagnosis pasti, dosis, atau resep.',
+    },
+    literacy: {
+      label: 'Mode literasi kesehatan',
+      simple: 'Simple',
+      detailed: 'Detailed',
+      parents: 'For Parents',
+      elderly: 'For Elderly',
+    },
+    medication: {
+      title: 'Medication Safety',
+      subtitle: 'Cari informasi keamanan obat umum tanpa dosis, resep, atau instruksi penggunaan personal.',
+      doseRefusal: 'Saya tidak dapat memberikan dosis obat. Untuk dosis yang aman dan sesuai kondisi pribadi, ikuti label resmi dan konsultasikan kepada dokter atau apoteker.',
+      askReminder: 'Tanyakan kepada dokter atau apoteker sebelum memulai, menghentikan, menggabungkan, atau mengubah obat apa pun.',
+    },
+    library: {
+      title: 'Health Library',
+      subtitle: 'Baca artikel edukasi kesehatan umum dengan bahasa yang bisa disesuaikan.',
+      searchPlaceholder: 'Cari topik kesehatan...',
+      allCategories: 'Semua kategori',
+    },
+  },
+  en: {
+    nav: {
+      home: 'Home',
+      symptoms: 'Symptom Guidance',
+      chat: 'AI Chat',
+      medication: 'Medication Safety',
+      library: 'Health Library',
+      prevention: 'Preventive Tips',
+      disclaimer: 'Disclaimer',
+      more: 'More',
+    },
+    common: {
+      search: 'Search',
+      help: 'Help',
+      close: 'Close',
+      readMore: 'Read detail',
+      disclaimer: 'This information is for general education only and is not a substitute for professional medical advice.',
+    },
+    emergency: {
+      title: 'Emergency red flag detected',
+      message: 'Your input includes an emergency warning sign. Seek urgent medical help or contact local emergency services immediately.',
+    },
+    feedback: {
+      helpful: 'Helpful',
+      notHelpful: 'Not Helpful',
+      unsafe: 'Report Unsafe Answer',
+      saved: 'Thank you, feedback saved.',
+    },
+    transparency: {
+      button: 'Why this answer?',
+      title: 'Why this answer?',
+      body: 'This answer is based on user input, local educational content, the selected health literacy mode, and medical safety rules. The app does not reveal the full system prompt and does not provide diagnosis, dosage, or prescriptions.',
+    },
+    literacy: {
+      label: 'Health literacy mode',
+      simple: 'Simple',
+      detailed: 'Detailed',
+      parents: 'For Parents',
+      elderly: 'For Elderly',
+    },
+    medication: {
+      title: 'Medication Safety',
+      subtitle: 'Search general medication safety information without dosage, prescriptions, or personal usage instructions.',
+      doseRefusal: 'I cannot provide medication dosage. For safe dosage based on your personal condition, follow official labels and consult a doctor or pharmacist.',
+      askReminder: 'Ask a doctor or pharmacist before starting, stopping, combining, or changing any medication.',
+    },
+    library: {
+      title: 'Health Library',
+      subtitle: 'Read general health education articles with adjustable language style.',
+      searchPlaceholder: 'Search health topics...',
+      allCategories: 'All categories',
+    },
+  },
+};

@@ -1,23 +1,13 @@
 ﻿import { useMemo, useState } from 'react';
-import { AlertTriangle, Bot, CheckCircle2, ClipboardList, HeartPulse } from 'lucide-react';
+import { Bot, CheckCircle2, ClipboardList, HeartPulse } from 'lucide-react';
+import EmergencyAlert from '../components/EmergencyAlert.jsx';
+import FeedbackButtons from '../components/FeedbackButtons.jsx';
 import FormattedText from '../components/FormattedText.jsx';
+import HealthLiteracySelector from '../components/HealthLiteracySelector.jsx';
 import PageHeader from '../components/PageHeader.jsx';
+import PromptTransparencyPanel from '../components/PromptTransparencyPanel.jsx';
 import { askGemini, buildSymptomPrompt, geminiReady, getGeminiErrorMessage } from '../services/gemini.js';
-
-const redFlags = [
-  'chest pain',
-  'nyeri dada',
-  'difficulty breathing',
-  'sesak napas',
-  'fainting',
-  'pingsan',
-  'severe bleeding',
-  'perdarahan berat',
-  'confusion',
-  'kebingungan',
-  'loss of consciousness',
-  'tidak sadar',
-];
+import { detectRedFlags } from '../utils/redFlags.js';
 
 const initialForm = {
   age: '',
@@ -40,11 +30,13 @@ function buildGuidance(form) {
   const symptom = form.symptom || 'gejala utama Anda';
   const additional = cleanOptionalValue(form.additional);
   const condition = cleanOptionalValue(form.condition);
-  const text = `${form.symptom} ${additional}`.toLowerCase();
-  const hasRedFlag = redFlags.some((flag) => text.includes(flag));
+  const text = `${form.symptom} ${additional}`;
+  const redFlagMatches = detectRedFlags(text);
+  const hasRedFlag = redFlagMatches.length > 0;
 
   return {
     hasRedFlag,
+    redFlagMatches,
     summary: `${form.age ? `Usia ${form.age}, ` : ''}${form.gender ? `${form.gender}, ` : ''}${symptom} selama ${form.duration || 'durasi belum disebutkan'} dengan tingkat keparahan ${form.severity.toLowerCase()}.`,
     causes: [
       'Infeksi ringan sementara, iritasi, cedera kecil, dehidrasi, stres, atau faktor gaya hidup dapat berkontribusi pada banyak gejala umum.',
@@ -77,6 +69,7 @@ export default function SymptomGuidance() {
   const [aiInsight, setAiInsight] = useState('');
   const [isAiLoading, setIsAiLoading] = useState(false);
   const [aiError, setAiError] = useState('');
+  const [literacyMode, setLiteracyMode] = useState('simple');
   const canSubmit = useMemo(() => form.age && form.symptom && form.duration, [form]);
 
   function updateField(event) {
@@ -97,7 +90,7 @@ export default function SymptomGuidance() {
 
     setIsAiLoading(true);
     try {
-      const insight = await askGemini(buildSymptomPrompt(guidance.cleanedForm, guidance.summary, guidance.hasRedFlag));
+      const insight = await askGemini(buildSymptomPrompt(guidance.cleanedForm, guidance.summary, guidance.hasRedFlag, literacyMode));
       setAiInsight(insight);
     } catch (error) {
       setAiError(getGeminiErrorMessage(error));
@@ -116,6 +109,7 @@ export default function SymptomGuidance() {
 
       <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
         <form className="card space-y-4" onSubmit={handleSubmit}>
+          <HealthLiteracySelector value={literacyMode} onChange={setLiteracyMode} />
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="field-label">
               Usia
@@ -163,20 +157,7 @@ export default function SymptomGuidance() {
         </form>
 
         <section className="space-y-4">
-          {result?.hasRedFlag && (
-            <div className="rounded-xl border border-danger bg-danger-soft p-5 text-danger">
-              <div className="flex items-start gap-3">
-                <AlertTriangle size={24} className="mt-1 shrink-0" />
-                <div>
-                  <h2 className="font-headline text-xl font-bold">Tanda bahaya darurat terdeteksi</h2>
-                  <p className="mt-2 text-sm">
-                    Input Anda memuat gejala tanda bahaya. Segera cari bantuan medis atau hubungi
-                    layanan darurat setempat.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+          {result?.hasRedFlag && <EmergencyAlert matches={result.redFlagMatches} />}
 
           <div className="card min-h-[500px]">
             {!result ? (
@@ -203,6 +184,8 @@ export default function SymptomGuidance() {
                 <ResultList title="Saran perawatan mandiri yang aman" items={result.selfCare} />
                 <ResultList title="Kapan perlu ke dokter" items={result.doctor} />
                 <ResultList title="Tanda bahaya darurat" items={result.emergency} danger />
+                <PromptTransparencyPanel source="local symptom rules + red flag keyword checker" />
+                <FeedbackButtons context="symptom-guidance-local" />
                 {(isAiLoading || aiInsight || aiError) && (
                   <div className="rounded-xl border border-primary/15 bg-primary-soft/35 p-4">
                     <div className="mb-2 flex items-center gap-2 font-bold text-primary">
@@ -211,6 +194,8 @@ export default function SymptomGuidance() {
                     </div>
                     {isAiLoading && <p className="text-muted">Gemini sedang menyusun insight edukatif...</p>}
                     {aiInsight && <FormattedText text={aiInsight} />}
+                    {aiInsight && <PromptTransparencyPanel source="symptom form + red flag checker + selected literacy mode + Gemini" />}
+                    {aiInsight && <FeedbackButtons context={`symptom-guidance:${literacyMode}`} />}
                     {aiError && <p className="text-sm text-warning">{aiError}</p>}
                   </div>
                 )}

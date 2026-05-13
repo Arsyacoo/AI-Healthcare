@@ -1,6 +1,9 @@
-﻿import { navItems, safetyBadges } from '../data/navigation.js';
+﻿import { useLanguage } from '../contexts/LanguageContext.jsx';
+import { navItems, safetyBadges } from '../data/navigation.js';
 
 export default function Sidebar({ activePage, onNavigate }) {
+  const { t } = useLanguage();
+
   return (
     <aside className="fixed left-0 top-0 z-40 hidden h-full w-72 flex-col border-r border-surface-border/70 bg-surface-card px-5 py-8 md:flex">
       <button className="mb-10 text-left font-headline text-2xl font-extrabold text-primary" onClick={() => onNavigate('home')} type="button">
@@ -19,7 +22,7 @@ export default function Sidebar({ activePage, onNavigate }) {
               className={`sidebar-link ${active ? 'sidebar-link-active' : ''}`}
             >
               <Icon size={20} />
-              <span>{item.label}</span>
+              <span>{t(item.labelKey)}</span>
             </button>
           );
         })}
@@ -42,4 +45,3 @@ export default function Sidebar({ activePage, onNavigate }) {
     </aside>
   );
 }
-

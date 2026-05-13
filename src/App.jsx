@@ -1,11 +1,13 @@
 ﻿import { lazy, Suspense, useState } from 'react';
 import Layout from './components/Layout.jsx';
+import { LanguageProvider } from './contexts/LanguageContext.jsx';
 
 const pages = [
   { id: 'home', Component: lazy(() => import('./pages/Home.jsx')) },
   { id: 'symptoms', Component: lazy(() => import('./pages/SymptomGuidance.jsx')) },
   { id: 'chat', Component: lazy(() => import('./pages/AIChat.jsx')) },
   { id: 'medication', Component: lazy(() => import('./pages/MedicationInfo.jsx')) },
+  { id: 'library', Component: lazy(() => import('./pages/HealthLibrary.jsx')) },
   { id: 'prevention', Component: lazy(() => import('./pages/PreventiveTips.jsx')) },
   { id: 'disclaimer', Component: lazy(() => import('./pages/Disclaimer.jsx')) },
 ];
@@ -25,16 +27,18 @@ export default function App() {
   }
 
   return (
-    <Layout activePage={activePage} onNavigate={handleNavigate}>
-      <Suspense fallback={<div className="card text-muted">Memuat halaman...</div>}>
-        {pages.map(({ id, Component }) =>
-          visitedPages.has(id) ? (
-            <section key={id} hidden={activePage !== id} aria-hidden={activePage !== id}>
-              <Component onNavigate={handleNavigate} />
-            </section>
-          ) : null,
-        )}
-      </Suspense>
-    </Layout>
+    <LanguageProvider>
+      <Layout activePage={activePage} onNavigate={handleNavigate}>
+        <Suspense fallback={<div className="card text-muted">Memuat halaman...</div>}>
+          {pages.map(({ id, Component }) =>
+            visitedPages.has(id) ? (
+              <section key={id} hidden={activePage !== id} aria-hidden={activePage !== id}>
+                <Component onNavigate={handleNavigate} />
+              </section>
+            ) : null,
+          )}
+        </Suspense>
+      </Layout>
+    </LanguageProvider>
   );
 }

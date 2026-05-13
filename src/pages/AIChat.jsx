@@ -1,8 +1,13 @@
 ﻿import { useState } from 'react';
 import { Bot, Send, UserRound } from 'lucide-react';
+import EmergencyAlert from '../components/EmergencyAlert.jsx';
+import FeedbackButtons from '../components/FeedbackButtons.jsx';
+import HealthLiteracySelector from '../components/HealthLiteracySelector.jsx';
 import PageHeader from '../components/PageHeader.jsx';
+import PromptTransparencyPanel from '../components/PromptTransparencyPanel.jsx';
 import FormattedText from '../components/FormattedText.jsx';
 import { askGemini, buildChatPrompt, geminiReady, getGeminiErrorMessage } from '../services/gemini.js';
+import { detectRedFlags } from '../utils/redFlags.js';
 
 const disclaimer = 'Informasi ini hanya untuk edukasi umum dan bukan pengganti nasihat medis profesional.';
 
@@ -84,6 +89,7 @@ export default function AIChat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [literacyMode, setLiteracyMode] = useState('simple');
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -97,7 +103,7 @@ export default function AIChat() {
     setError('');
 
     try {
-      const response = await askGemini(buildChatPrompt(trimmed, messages));
+      const response = await askGemini(buildChatPrompt(trimmed, messages, literacyMode));
       setMessages((current) => [...current, { role: 'assistant', text: response }]);
     } catch (apiError) {
       setError(getGeminiErrorMessage(apiError));
@@ -112,6 +118,8 @@ export default function AIChat() {
     <div className="flex min-h-[calc(100vh-11rem)] flex-col">
       <PageHeader eyebrow="Chat AI" title="Ajukan pertanyaan edukasi kesehatan umum">
       </PageHeader>
+
+      <div className="mb-4"><HealthLiteracySelector value={literacyMode} onChange={setLiteracyMode} /></div>
 
       <section className="card flex flex-1 flex-col overflow-hidden p-0">
         <div className="border-b border-surface-border/70 bg-primary-soft/45 p-4">
@@ -136,8 +144,18 @@ export default function AIChat() {
                 {message.role === 'assistant' ? <FormattedText text={message.text} /> : message.text}
               </div>
               {message.role === 'user' && <Avatar type="user" />}
+              {message.role === 'assistant' && index > 0 && (
+                <div className="ml-12 max-w-[82%]">
+                  <PromptTransparencyPanel source="chat history + selected literacy mode + Gemini/local fallback + safety rules" />
+                  <FeedbackButtons context={`ai-chat:${index}:${literacyMode}`} />
+                </div>
+              )}
             </div>
           ))}
+          {messages.map((message, index) => {
+            const matches = message.role === 'user' ? detectRedFlags(message.text) : [];
+            return matches.length > 0 ? <EmergencyAlert key={`alert-${index}`} matches={matches} /> : null;
+          })}
           {isLoading && (
             <div className="flex gap-3">
               <Avatar type="assistant" />

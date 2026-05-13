@@ -1,5 +1,6 @@
-import {
+﻿import {
   Bot,
+  BookOpen,
   ClipboardPlus,
   FileWarning,
   HeartPulse,
@@ -9,12 +10,13 @@ import {
 } from 'lucide-react';
 
 export const navItems = [
-  { id: 'home', label: 'Beranda', shortLabel: 'Beranda', icon: Home },
-  { id: 'symptoms', label: 'Panduan Gejala', shortLabel: 'Gejala', icon: ClipboardPlus },
-  { id: 'chat', label: 'Chat AI', shortLabel: 'Chat', icon: Bot },
-  { id: 'medication', label: 'Info Obat', shortLabel: 'Obat', icon: Pill },
-  { id: 'prevention', label: 'Tips Pencegahan', shortLabel: 'Tips', icon: HeartPulse },
-  { id: 'disclaimer', label: 'Disclaimer', shortLabel: 'Catatan', icon: FileWarning },
+  { id: 'home', labelKey: 'nav.home', label: 'Beranda', shortLabel: 'Beranda', icon: Home },
+  { id: 'symptoms', labelKey: 'nav.symptoms', label: 'Panduan Gejala', shortLabel: 'Gejala', icon: ClipboardPlus },
+  { id: 'chat', labelKey: 'nav.chat', label: 'Chat AI', shortLabel: 'Chat', icon: Bot },
+  { id: 'medication', labelKey: 'nav.medication', label: 'Medication Safety', shortLabel: 'Obat', icon: Pill },
+  { id: 'library', labelKey: 'nav.library', label: 'Health Library', shortLabel: 'Library', icon: BookOpen },
+  { id: 'prevention', labelKey: 'nav.prevention', label: 'Tips Pencegahan', shortLabel: 'Tips', icon: HeartPulse },
+  { id: 'disclaimer', labelKey: 'nav.disclaimer', label: 'Disclaimer', shortLabel: 'Catatan', icon: FileWarning },
 ];
 
 export const safetyBadges = [

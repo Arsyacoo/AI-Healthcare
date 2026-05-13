@@ -1,4 +1,4 @@
-﻿import { Bot, ClipboardPlus, HeartPulse, Pill, ShieldAlert, Sparkles } from 'lucide-react';
+﻿import { BookOpen, Bot, ClipboardPlus, HeartPulse, Pill, ShieldAlert, Sparkles } from 'lucide-react';
 import InfoCard from '../components/InfoCard.jsx';
 
 const features = [
@@ -18,10 +18,17 @@ const features = [
   },
   {
     id: 'medication',
-    title: 'Info Obat',
+    title: 'Medication Safety',
     text: 'Cari ringkasan obat umum tanpa rekomendasi dosis atau resep.',
     icon: Pill,
     tone: 'warning',
+  },
+  {
+    id: 'library',
+    title: 'Health Library',
+    text: 'Baca artikel edukasi kesehatan seperti demam, batuk, nutrisi, tidur, dan kesehatan mental ringan.',
+    icon: BookOpen,
+    tone: 'primary',
   },
   {
     id: 'prevention',
@@ -91,7 +98,7 @@ export default function Home({ onNavigate }) {
 
       <section>
         <h2 className="mb-5 font-headline text-2xl font-bold text-text">Jelajahi layanan utama</h2>
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {features.map((feature) => (
             <button
               key={feature.id}
@@ -109,4 +116,8 @@ export default function Home({ onNavigate }) {
     </div>
   );
 }
+
+
+
+
 
