@@ -26,7 +26,11 @@ Clarifying questions:
 
 What you can do:
 - Note when symptoms started and whether they are improving or worsening.
-- Avoid guessing a diagnosis and consult a medical professional if symptoms persist or worsen.`;
+- Avoid guessing a diagnosis and consult a medical professional if symptoms persist or worsen.
+
+OTC options to ask about:
+- Depending on the symptom, a pharmacist may discuss general over-the-counter options such as pain/fever relievers, allergy medicines, cough products, or oral rehydration products.
+- Read the official label and ask a doctor or pharmacist first if pregnant, breastfeeding, giving medicine to a child, older, allergic, taking other medicines, or living with chronic conditions.`;
 
     if (lower.includes('fever') || lower.includes('demam')) {
       answer =
@@ -42,7 +46,11 @@ Clarifying questions:
 
 What you can do:
 - Rest, drink enough fluids, and monitor temperature regularly.
-- Seek medical help if fever is high, persistent, or comes with severe symptoms.`;
+- Seek medical help if fever is high, persistent, or comes with severe symptoms.
+
+OTC options to ask about:
+- A pharmacist may discuss fever or pain relievers such as paracetamol/acetaminophen or ibuprofen, depending on personal safety factors.
+- Read the label and ask a professional first if there are liver, kidney, stomach, bleeding, heart conditions, pregnancy, allergies, or other medicines.`;
     } else if (lower.includes('cough') || lower.includes('batuk')) {
       answer =
         `Summary:
@@ -57,7 +65,11 @@ Clarifying questions:
 
 What you can do:
 - Drink enough fluids, avoid smoke or irritants, and monitor whether the cough worsens.
-- Seek urgent help if there is shortness of breath, chest pain, coughing blood, or worsening condition.`;
+- Seek urgent help if there is shortness of breath, chest pain, coughing blood, or worsening condition.
+
+OTC options to ask about:
+- Depending on the cough type, a pharmacist may discuss options such as expectorants, cough suppressants, lozenges, saline spray, or allergy medicines.
+- Ask a professional first if the cough is in a child, lasts long, comes with fever or breathing trouble, or if there are chronic lung/heart conditions.`;
     } else if (lower.includes('medicine') || lower.includes('medication') || lower.includes('obat')) {
       answer =
         `Summary:
@@ -71,7 +83,11 @@ Clarifying questions:
 - What complaint are you hoping the medication will help?
 
 What you can do:
-- Check the official label and ask a doctor or pharmacist before using or combining medication.`;
+- Check the official label and ask a doctor or pharmacist before using or combining medication.
+
+OTC options to ask about:
+- If the complaint is mild, ask a pharmacist which over-the-counter category or active ingredient fits the symptom and your safety profile.
+- Avoid combining products with the same active ingredient, and do not use medicine longer than the official label recommends.`;
     }
 
     return `${answer} This information is for general education only and is not a substitute for professional medical advice.`;
@@ -91,7 +107,11 @@ Pertanyaan klarifikasi:
 
 Yang bisa dilakukan:
 - Catat kapan gejala mulai muncul dan apakah membaik atau memburuk.
-- Hindari menebak diagnosis dan konsultasikan ke tenaga medis jika gejala menetap atau memburuk.`;
+- Hindari menebak diagnosis dan konsultasikan ke tenaga medis jika gejala menetap atau memburuk.
+
+Opsi obat bebas untuk ditanyakan:
+- Tergantung gejalanya, apoteker dapat menjelaskan opsi umum seperti obat nyeri/demam, obat alergi, produk batuk, atau cairan rehidrasi oral.
+- Baca label resmi dan tanya dokter atau apoteker lebih dulu bila hamil, menyusui, untuk anak, lansia, alergi, memakai obat lain, atau punya penyakit kronis.`;
 
   if (lower.includes('fever') || lower.includes('demam')) {
     answer =
@@ -107,7 +127,11 @@ Pertanyaan klarifikasi:
 
 Yang bisa dilakukan:
 - Istirahat, cukup minum, dan pantau suhu secara berkala.
-- Cari bantuan medis jika demam tinggi, menetap, atau disertai gejala berat.`;
+- Cari bantuan medis jika demam tinggi, menetap, atau disertai gejala berat.
+
+Opsi obat bebas untuk ditanyakan:
+- Apoteker dapat membahas pereda demam atau nyeri seperti paracetamol atau ibuprofen, tergantung faktor keamanan pribadi.
+- Baca label dan tanya profesional dulu bila ada gangguan hati, ginjal, lambung, perdarahan, jantung, kehamilan, alergi, atau obat lain.`;
   } else if (lower.includes('cough') || lower.includes('batuk')) {
     answer =
       `Ringkasan:
@@ -122,7 +146,11 @@ Pertanyaan klarifikasi:
 
 Yang bisa dilakukan:
 - Cukup minum, hindari asap/iritan, dan pantau apakah batuk memburuk.
-- Segera cari bantuan medis jika ada sesak napas, nyeri dada, batuk darah, atau kondisi memburuk.`;
+- Segera cari bantuan medis jika ada sesak napas, nyeri dada, batuk darah, atau kondisi memburuk.
+
+Opsi obat bebas untuk ditanyakan:
+- Tergantung jenis batuk, apoteker dapat membahas ekspektoran, penekan batuk, pelega tenggorokan, semprot saline, atau obat alergi.
+- Tanya profesional dulu bila batuk terjadi pada anak, berlangsung lama, disertai demam/sesak, atau ada penyakit paru/jantung kronis.`;
   } else if (lower.includes('medicine') || lower.includes('obat')) {
     answer =
       `Ringkasan:
@@ -136,7 +164,11 @@ Pertanyaan klarifikasi:
 - Keluhan apa yang ingin dibantu oleh obat tersebut?
 
 Yang bisa dilakukan:
-- Periksa label resmi dan tanyakan kepada dokter atau apoteker sebelum memakai atau menggabungkan obat.`;
+- Periksa label resmi dan tanyakan kepada dokter atau apoteker sebelum memakai atau menggabungkan obat.
+
+Opsi obat bebas untuk ditanyakan:
+- Jika keluhannya ringan, tanyakan kepada apoteker kategori obat bebas atau bahan aktif yang cocok dengan gejala dan profil keamanan Anda.
+- Hindari menggabungkan produk dengan bahan aktif sama, dan jangan memakai obat lebih lama dari anjuran label resmi.`;
   }
 
   return `${answer} ${disclaimer}`;

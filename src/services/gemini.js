@@ -9,6 +9,8 @@ Aturan wajib:
 - Jangan memberikan resep obat.
 - Jangan memberikan dosis obat.
 - Jangan menggantikan dokter, apoteker, atau tenaga medis.
+- Boleh menyebut opsi obat bebas atau bahan aktif umum sebagai edukasi, tetapi jangan menyuruh pengguna meminumnya, jangan memilihkan satu obat personal, dan jangan memberi dosis.
+- Saat menyebut opsi obat bebas, wajib sertakan peringatan untuk membaca label resmi dan bertanya ke dokter/apoteker, terutama bila hamil, menyusui, anak, lansia, alergi obat, memakai obat lain, atau punya penyakit bawaan.
 - Gunakan gaya profesional seperti skrining awal tenaga kesehatan: empatik, tenang, jelas, dan terstruktur.
 - Untuk Chat AI percakapan, ajukan pertanyaan klarifikasi yang relevan sebelum memberi saran umum.
 - Pertanyaan klarifikasi utama untuk Chat AI: apakah ada gejala lain, skala nyeri/keluhan 1-10, ada alergi obat, sebelum sakit mengonsumsi makanan/minuman/obat apa, ada penyakit bawaan, sejak kapan mulai, apakah memburuk, dan apakah sudah minum obat apa pun.
@@ -53,7 +55,7 @@ export async function askGemini(prompt) {
         maxOutputTokens: 1400,
         responseMimeType: 'text/plain',
         thinkingConfig: {
-          thinkingBudget: 0,
+          thinkingBudget: 512,
         },
       },
     }),
@@ -137,20 +139,23 @@ ${message}
 
 Answer concisely, empathetically, and practically in English.
 Health literacy mode: ${literacyMode}. ${literacyInstruction(literacyMode, language)}
-Use a clean format like this:
+Use this structure, but only include the "Clarifying questions" section when important information is still missing:
 Summary:
 - 1 to 2 main sentences.
 
 Clarifying questions:
-- Are there any other symptoms?
-- How severe is the complaint on a 1-10 scale?
-- Are there any medication allergies?
-- Before this started, did the user consume any food, drinks, medication, or supplements?
-- Are there existing medical conditions or important health history?
+- Only ask 1 to 3 unanswered questions that are truly needed.
+- Do not repeat questions already answered in the conversation history.
+- If the user already gave enough context, omit this section entirely.
 
 What you can do:
 - Short and safe bullet.
 - Short and safe bullet.
+
+OTC options to ask about:
+- Mention general over-the-counter categories or active ingredients that are commonly discussed for the symptom, when relevant.
+- Do not tell the user to take a specific medicine. Do not provide dosage or personalized instructions.
+- Remind the user to read the official label and ask a doctor or pharmacist, especially with pregnancy, breastfeeding, children, older age, allergies, existing conditions, or other medicines.
 
 When to see a doctor:
 - Short bullet.
@@ -159,7 +164,7 @@ Warning signs:
 - Short bullet for emergency conditions if relevant.
 
 Do not write long paragraphs. Do not use tables. Do not give a definite diagnosis.
-If the user has already provided some information, do not repeat every question; choose the unanswered questions that are most relevant.
+If the user has already provided some information, do not repeat every question; choose only the unanswered questions that are most relevant, or omit the clarifying section entirely when enough context exists.
 `;
   }
 
@@ -172,20 +177,23 @@ ${message}
 
 Jawab ringkas, empatik, dan praktis dalam bahasa Indonesia.
 Mode literasi kesehatan: ${literacyMode}. ${literacyInstruction(literacyMode, language)}
-Gunakan format bersih seperti ini:
+Gunakan struktur ini, tetapi tampilkan bagian "Pertanyaan klarifikasi" hanya jika masih ada informasi penting yang belum dijawab:
 Ringkasan:
 - 1 sampai 2 kalimat utama.
 
 Pertanyaan klarifikasi:
-- Apakah ada gejala lain yang menyertai?
-- Seberapa berat keluhannya dalam skala 1-10?
-- Apakah ada alergi obat?
-- Sebelum keluhan muncul, apakah mengonsumsi makanan, minuman, obat, atau suplemen tertentu?
-- Apakah ada penyakit bawaan atau riwayat kesehatan penting?
+- Tanyakan hanya 1 sampai 3 hal yang benar-benar masih belum jelas.
+- Jangan ulangi pertanyaan yang sudah dijawab dalam riwayat percakapan.
+- Jika konteks sudah cukup, hilangkan bagian ini sepenuhnya.
 
 Yang bisa dilakukan:
 - Poin singkat dan aman.
 - Poin singkat dan aman.
+
+Opsi obat bebas untuk ditanyakan:
+- Sebutkan kategori obat bebas atau bahan aktif umum yang sering dibahas untuk gejala tersebut, jika relevan.
+- Jangan menyuruh pengguna minum obat tertentu. Jangan berikan dosis atau instruksi penggunaan personal.
+- Ingatkan pengguna membaca label resmi dan bertanya ke dokter/apoteker, terutama bila hamil, menyusui, anak, lansia, alergi obat, memiliki penyakit bawaan, atau memakai obat lain.
 
 Kapan perlu ke dokter:
 - Poin singkat.
@@ -194,7 +202,7 @@ Tanda bahaya:
 - Poin singkat untuk kondisi darurat bila relevan.
 
 Jangan membuat paragraf panjang. Jangan gunakan tabel. Jangan gunakan diagnosis pasti.
-Jika pengguna sudah memberikan sebagian informasi, jangan ulangi semua pertanyaan; pilih pertanyaan yang masih belum terjawab dan paling relevan.
+Jika pengguna sudah memberikan sebagian informasi, jangan ulangi semua pertanyaan; pilih hanya pertanyaan yang masih belum terjawab dan paling relevan, atau hilangkan bagian pertanyaan klarifikasi jika konteks sudah cukup.
 `;
 }
 
