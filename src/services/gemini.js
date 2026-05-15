@@ -314,6 +314,58 @@ Jika nama obat tidak jelas, jelaskan bahwa pengguna perlu memastikan nama obat k
 `;
 }
 
+export function buildHealthLibraryPrompt(topic, literacyMode = 'simple', language = 'id') {
+  if (language === 'en') {
+    return `
+Create a general health education article about: "${topic}".
+Health literacy mode: ${literacyMode}. ${literacyInstruction(literacyMode, language)}
+
+Use exactly this format:
+Summary:
+- 1 short sentence explaining the topic.
+
+Key points:
+- 3 short educational points.
+
+Rules:
+- Do not write any opening sentence before "Summary:".
+- Do not use bold markdown, numbering, tables, or decorative symbols.
+- Every content line after a heading must start with "- ".
+- Each bullet must be one short sentence.
+- Use only the "Summary" and "Key points" sections.
+- Do not provide a definite diagnosis.
+- Do not provide medication dosage, prescriptions, or personalized treatment.
+- If the topic is unclear, explain that the user should use a clearer health topic.
+- Keep bullets short and patient-friendly.
+- End with the required disclaimer.
+`;
+  }
+
+  return `
+Buat artikel edukasi kesehatan umum tentang: "${topic}".
+Mode literasi kesehatan: ${literacyMode}. ${literacyInstruction(literacyMode, language)}
+
+Gunakan persis format berikut:
+Ringkasan:
+- 1 kalimat singkat yang menjelaskan topik.
+
+Poin penting:
+- 3 poin edukasi singkat.
+
+Aturan:
+- Jangan tulis kalimat pembuka sebelum "Ringkasan:".
+- Jangan gunakan markdown tebal, numbering, tabel, atau simbol dekoratif.
+- Setiap baris isi setelah heading harus diawali "- ".
+- Setiap bullet maksimal 1 kalimat pendek.
+- Gunakan hanya bagian "Ringkasan" dan "Poin penting".
+- Jangan memberikan diagnosis pasti.
+- Jangan memberikan dosis obat, resep, atau terapi personal.
+- Jika topik tidak jelas, jelaskan bahwa pengguna perlu memakai topik kesehatan yang lebih spesifik.
+- Buat bullet singkat dan nyaman dibaca pasien.
+- Akhiri dengan disclaimer wajib.
+`;
+}
+
 
 
 

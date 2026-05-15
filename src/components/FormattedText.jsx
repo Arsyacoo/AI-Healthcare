@@ -2,6 +2,10 @@
   const headings = [
     'Ringkasan',
     'Summary',
+    'Poin Penting',
+    'Poin penting',
+    'Key Points',
+    'Key points',
     'Pertanyaan Klarifikasi',
     'Pertanyaan klarifikasi',
     'Pertanyaan Klarifikasi Lanjutan',
